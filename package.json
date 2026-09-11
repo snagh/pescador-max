@@ -1,0 +1,17 @@
+{
+  "name": "pescador-max",
+  "version": "1.0.0",
+  "description": "App de Pesca Inteligente para Amazfit Bip Max (Zepp OS)",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test/verify.js",
+    "build": "zeus build",
+    "build:bipmax": "zeus build -t \"Amazfit Bip Max\""
+  },
+  "author": "Antigravity",
+  "license": "MIT",
+  "devDependencies": {
+    "@zeppos/device-types": "^3.0.0"
+  }
+}
