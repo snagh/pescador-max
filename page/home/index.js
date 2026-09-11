@@ -1,6 +1,6 @@
 /**
  * page/home/index.js - Dashboard Principal do Pescador Max
- * Fases da Lua, Teoria Solunar, Status do Defeso e Atalhos
+ * Fases da Lua, Teoria Solunar, Barômetro em Tempo Real e Defeso
  */
 import * as hmUI from '@zos/ui';
 import { push } from '@zos/router';
@@ -8,6 +8,7 @@ import { px } from '@zos/utils';
 import { getMoonDetails } from '../../utils/lunar.js';
 import { getDefesoStatus } from '../../utils/defeso.js';
 import { getSelectedBasin } from '../../utils/storage.js';
+import { getBarometerReading } from '../../utils/sensors.js';
 import { COLORS } from '../../utils/constants.js';
 
 Page({
@@ -20,6 +21,7 @@ Page({
     const moon = getMoonDetails(today);
     const selectedBasin = getSelectedBasin();
     const defeso = getDefesoStatus(today, selectedBasin);
+    const barometer = getBarometerReading();
 
     const weekDays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
     const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
@@ -141,8 +143,71 @@ Page({
       text: `Pico Maior: ${moon.solunarPeriods.major1}`
     });
 
-    // 3. CARTÃO DE STATUS DO DEFESO / PIRACEMA
-    const card2Y = px(344);
+    // 3. CARTÃO DE BARÔMETRO / PRESSÃO ATMOSFÉRICA
+    const cardBaroY = px(344);
+    const cardBaroH = px(136);
+
+    hmUI.createWidget(hmUI.widget.FILL_RECT, {
+      x: px(16),
+      y: cardBaroY,
+      w: px(400),
+      h: cardBaroH,
+      radius: px(18),
+      color: COLORS.CARD_BG
+    });
+
+    hmUI.createWidget(hmUI.widget.STROKE_RECT, {
+      x: px(16),
+      y: cardBaroY,
+      w: px(400),
+      h: cardBaroH,
+      radius: px(18),
+      line_width: px(2),
+      color: barometer.color
+    });
+
+    hmUI.createWidget(hmUI.widget.TEXT, {
+      x: px(32),
+      y: cardBaroY + px(12),
+      w: px(368),
+      h: px(24),
+      color: COLORS.TEXT_MUTED,
+      text_size: px(18),
+      text: 'BARÔMETRO & PRESSÃO'
+    });
+
+    hmUI.createWidget(hmUI.widget.TEXT, {
+      x: px(32),
+      y: cardBaroY + px(38),
+      w: px(368),
+      h: px(30),
+      color: barometer.color,
+      text_size: px(23),
+      text: `🧭 ${barometer.status} • ${barometer.trend}`
+    });
+
+    hmUI.createWidget(hmUI.widget.TEXT, {
+      x: px(32),
+      y: cardBaroY + px(70),
+      w: px(368),
+      h: px(28),
+      color: COLORS.TEXT_MAIN,
+      text_size: px(18),
+      text: barometer.fishActivity
+    });
+
+    hmUI.createWidget(hmUI.widget.TEXT, {
+      x: px(32),
+      y: cardBaroY + px(98),
+      w: px(368),
+      h: px(30),
+      color: COLORS.TEXT_MUTED,
+      text_size: px(16),
+      text: `Dica: ${barometer.recommendation}`
+    });
+
+    // 4. CARTÃO DE STATUS DO DEFESO / PIRACEMA
+    const card2Y = px(494);
     const card2H = px(116);
     const defesoColor = defeso.isDefeso ? COLORS.DANGER : COLORS.SUCCESS;
 
@@ -181,7 +246,7 @@ Page({
       w: px(368),
       h: px(32),
       color: defesoColor,
-      text_size: px(25),
+      text_size: px(24),
       text: `[ ${defeso.statusBadge}: ${defeso.statusText} ]`
     });
 
@@ -195,7 +260,7 @@ Page({
       text: `${defeso.shortName} (Toque p/ detalhes)`
     });
 
-    // 4. BOTÕES DE NAVEGAÇÃO
+    // 5. BOTÕES DE NAVEGAÇÃO
     const btnW = px(400);
     const btnH = px(62);
     const btnRadius = px(14);
@@ -203,7 +268,7 @@ Page({
     // Botão 1: Previsão 7 Dias
     hmUI.createWidget(hmUI.widget.BUTTON, {
       x: px(16),
-      y: px(474),
+      y: px(624),
       w: btnW,
       h: btnH,
       radius: btnRadius,
@@ -220,7 +285,7 @@ Page({
     // Botão 2: Defeso & Piracema
     hmUI.createWidget(hmUI.widget.BUTTON, {
       x: px(16),
-      y: px(548),
+      y: px(698),
       w: btnW,
       h: btnH,
       radius: btnRadius,
@@ -237,7 +302,7 @@ Page({
     // Botão 3: Pontos & Iscas
     hmUI.createWidget(hmUI.widget.BUTTON, {
       x: px(16),
-      y: px(622),
+      y: px(772),
       w: btnW,
       h: btnH,
       radius: btnRadius,
@@ -251,10 +316,27 @@ Page({
       }
     });
 
+    // Botão 4: Atualizar
+    hmUI.createWidget(hmUI.widget.BUTTON, {
+      x: px(16),
+      y: px(846),
+      w: btnW,
+      h: px(54),
+      radius: btnRadius,
+      normal_color: 0x162438,
+      press_color: 0x223654,
+      color: COLORS.PRIMARY,
+      text_size: px(20),
+      text: '🔄  ATUALIZAR SENSORES',
+      click_func: () => {
+        hmUI.redraw();
+      }
+    });
+
     // Espaçador inferior para rolagem agradável
     hmUI.createWidget(hmUI.widget.TEXT, {
       x: px(16),
-      y: px(700),
+      y: px(920),
       w: px(400),
       h: px(40),
       color: COLORS.TEXT_DIM,

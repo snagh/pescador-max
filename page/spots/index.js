@@ -1,11 +1,12 @@
 /**
- * page/spots/index.js - Locais de Pesca, Waypoints e Guia de Iscas
+ * page/spots/index.js - Locais de Pesca, Waypoints com GPS e Guia de Iscas
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
 import { px } from '@zos/utils';
 import { SPOT_TYPES } from '../../utils/spots.js';
 import { getSavedSpots, addSpot, deleteSpot } from '../../utils/storage.js';
+import { getCurrentCoordinates } from '../../utils/sensors.js';
 import { COLORS } from '../../utils/constants.js';
 
 Page({
@@ -52,7 +53,7 @@ Page({
       text: 'LOCAIS & PONTOS'
     });
 
-    // 2. Botão de Marcar Ponto Atual
+    // 2. Botão de Marcar Ponto com GPS
     hmUI.createWidget(hmUI.widget.BUTTON, {
       x: px(16),
       y: px(76),
@@ -63,18 +64,19 @@ Page({
       press_color: 0x059669,
       color: COLORS.TEXT_MAIN,
       text_size: px(22),
-      text: '📍 + MARCAR PONTO AQUI',
+      text: '📍 + MARCAR PONTO GPS',
       click_func: () => {
         const now = new Date();
         const timeStr = `${now.getHours() < 10 ? '0' : ''}${now.getHours()}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()}`;
         const count = this.state.spots.length + 1;
-        
+        const coords = getCurrentCoordinates();
+
         addSpot({
           name: `Ponto Marcado #${count}`,
-          type: 'Local Salvo',
+          type: 'Waypoint Salvo',
           time: `Salvo às ${timeStr}`,
-          coords: 'Marcado no Relógio',
-          notes: 'Ponto registrado com sucesso'
+          coords: coords.string,
+          notes: coords.available ? 'Coordenadas GPS registradas' : 'Ponto salvo com timestamp'
         });
 
         this.state.spots = getSavedSpots();
@@ -94,7 +96,7 @@ Page({
     });
 
     let currentY = px(180);
-    const spotCardH = px(110);
+    const spotCardH = px(112);
     const spacing = px(12);
 
     this.state.spots.forEach((spot) => {
@@ -135,7 +137,7 @@ Page({
         w: px(260),
         h: px(24),
         color: COLORS.PRIMARY,
-        text_size: px(17),
+        text_size: px(16),
         text: `${spot.time} • ${spot.coords}`
       });
 
@@ -146,7 +148,7 @@ Page({
         w: px(260),
         h: px(38),
         color: COLORS.TEXT_MUTED,
-        text_size: px(16),
+        text_size: px(15),
         text_style: hmUI.text_style.WRAP,
         text: spot.notes
       });
@@ -154,7 +156,7 @@ Page({
       // Botão Excluir
       hmUI.createWidget(hmUI.widget.BUTTON, {
         x: px(296),
-        y: currentY + px(30),
+        y: currentY + px(32),
         w: px(106),
         h: px(48),
         radius: px(10),

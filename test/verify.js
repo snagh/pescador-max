@@ -4,6 +4,7 @@
 import { getMoonDetails, getForecast } from '../utils/lunar.js';
 import { getDefesoStatus, isDateInDefeso, BASINS } from '../utils/defeso.js';
 import { getSavedSpots, addSpot, deleteSpot, getSelectedBasin, setSelectedBasin } from '../utils/storage.js';
+import { interpretBarometer } from '../utils/sensors.js';
 
 console.log('=== TESTE 1: CÁLCULOS LUNARES & TEORIA SOLUNAR ===');
 const today = new Date();
@@ -60,5 +61,12 @@ console.log(`Ponto excluído com sucesso! Total restante: ${afterDelete.length}`
 
 setSelectedBasin('pantanal');
 console.log(`Bacia salva: ${getSelectedBasin()}`);
+
+console.log('\n=== TESTE 4: SENSORES & INTERPRETAÇÃO BAROMÉTRICA ===');
+const baroPressures = [1020, 1012, 1006, 998];
+baroPressures.forEach(hpa => {
+  const res = interpretBarometer(hpa);
+  console.log(`  ${hpa} hPa: ${res.status} [${res.trend}] -> ${res.fishActivity} (Dica: ${res.recommendation})`);
+});
 
 console.log('\n>>> TODOS OS TESTES PASSARAM COM SUCESSO! <<<');
