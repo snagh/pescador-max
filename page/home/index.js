@@ -1,11 +1,11 @@
 /**
- * page/home/index.js - Dashboard Bento Grid Ultra-Premium para o PescaMax
- * Inspirado no Apple Watch (watchOS 10):
- * - Grid Bento moderno com cantos arredondados (raio 20px)
- * - Números gigantescos em negrito de 36px em ciano néon e branco
- * - Inicia exatamente abaixo da barra de status nativa (y >= 68px)
- * - Widgets e dados 100% visíveis, sem botões invisíveis ou caixas pretas cobrindo texto
- * - Fundo AMOLED preto puro de alto contraste e luxo
+ * page/home/index.js - Dashboard Bento Grid watchOS 10 para o PescaMax
+ * Design autêntico de smartwatch:
+ * - Superfícies sólidas com contraste nobre (sem bordas wireframe de IA)
+ * - Barras de nível segmentadas desenhadas em vetor nativo (sem caracteres unicode quebrados)
+ * - Zero caracteres 'quadradinho' (sem setas ou estrelas incompatíveis com a fonte do relógio)
+ * - Cores néon vibrantes no AMOLED preto puro
+ * - Totalmente calibrado para a tela de 432x514 do Amazfit Bip Max
  */
 import * as hmUI from '@zos/ui';
 import { push } from '@zos/router';
@@ -67,10 +67,9 @@ Page({
     const colGap = layout.colGap;
     const col2X = mX + colW + colGap;
 
-    // Começa exatamente abaixo da barra de status nativa do Zepp OS ("PescaMax 14:43")
-    let curY = layout.topPadding;
+    let curY = layout.topPadding; // 68px - abaixo da barra de status "PescaMax 14:43"
 
-    // Fundo completo apenas se for Light Mode (no Dark Mode o AMOLED padrão é preto)
+    // 0. Fundo total no Light Mode (Preto AMOLED puro no Dark Mode)
     if (colors.isLight) {
       this.createWidget(hmUI.widget.FILL_RECT, {
         x: 0,
@@ -81,34 +80,32 @@ Page({
       });
     }
 
-    // 1. SUB-HEADER ELEGANTE (Data + Pílula de Idioma)
-    const subHeaderH = px(36);
+    // 1. SUB-HEADER (Data + Botão de Idioma)
+    const subHeaderH = px(34);
 
-    // Data Atual à esquerda
     this.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: px(220),
       h: subHeaderH,
-      color: colors.TEXT_MUTED,
-      text_size: px(18),
+      color: 0x8e8e93,
+      text_size: px(17),
       align_v: hmUI.align.CENTER_V,
-      text: `📅 ${dateShort}`
+      text: dateShort
     });
 
-    // Pílula de Idioma à direita
-    const langBtnW = px(84);
+    const langBtnW = px(76);
     this.createWidget(hmUI.widget.BUTTON, {
       x: mX + cW - langBtnW,
       y: curY,
       w: langBtnW,
       h: subHeaderH,
-      radius: px(18),
-      normal_color: colors.BTN_BG,
-      press_color: colors.BTN_PRESS,
-      color: colors.ACCENT_ORANGE,
+      radius: px(16),
+      normal_color: 0x2c2c2e,
+      press_color: 0x3a3a3c,
+      color: 0xff6b4a,
       text_size: px(15),
-      text: str.langToggle,
+      text: lang === 'pt' ? 'PT' : 'EN',
       click_func: () => {
         const nextLang = lang === 'pt' ? 'en' : 'pt';
         setAppLanguage(nextLang);
@@ -119,8 +116,8 @@ Page({
 
     curY += subHeaderH + px(10);
 
-    // 2. BENTO ROW 1: DOIS CARTÕES DE TELEMETRIA LADO A LADO (100% VISÍVEIS)
-    const bento1H = px(150);
+    // 2. BENTO ROW 1: DOIS CARTÕES DE TELEMETRIA (SUPERFÍCIE SÓLIDA watchOS 10)
+    const bento1H = px(154);
 
     // === CARTÃO ESQUERDO: LUA & SOLUNAR ===
     this.createWidget(hmUI.widget.FILL_RECT, {
@@ -129,71 +126,73 @@ Page({
       w: colW,
       h: bento1H,
       radius: px(layout.radiusBento),
-      color: colors.CARD_BG
+      color: 0x1c1c1e
     });
 
-    this.createWidget(hmUI.widget.STROKE_RECT, {
-      x: mX,
-      y: curY,
-      w: colW,
-      h: bento1H,
-      radius: px(layout.radiusBento),
-      line_width: px(2),
-      color: colors.PRIMARY
-    });
-
-    // Label do topo
     this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(12),
-      y: curY + px(10),
-      w: colW - px(24),
-      h: px(18),
-      color: colors.TEXT_MUTED,
-      text_size: px(13),
-      text: '🌒 LUA'
+      x: mX + px(14),
+      y: curY + px(12),
+      w: colW - px(28),
+      h: px(16),
+      color: 0x8e8e93,
+      text_size: px(12),
+      text: 'LUA & SOLUNAR'
     });
 
-    // Nome da Fase da Lua
     this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(12),
+      x: mX + px(14),
       y: curY + px(28),
-      w: colW - px(24),
-      h: px(22),
-      color: colors.TEXT_MAIN,
-      text_size: px(16),
+      w: colW - px(28),
+      h: px(24),
+      color: 0xffffff,
+      text_size: px(18),
       text: moon.phaseName
     });
 
-    // Iluminação em NÚMERO GIGANTE Ciano (36px bold)
+    // Número GIGANTE da Iluminação em Ciano Néon (40px bold)
     this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(12),
-      y: curY + px(52),
-      w: colW - px(24),
-      h: px(44),
-      color: colors.PRIMARY,
-      text_size: px(36),
+      x: mX + px(14),
+      y: curY + px(50),
+      w: colW - px(28),
+      h: px(46),
+      color: 0x00d2ff,
+      text_size: px(40),
       text: `${moon.illumination}%`
     });
 
-    // Avaliação Solunar (Verde Esmeralda)
-    const ratingColor = moon.rating >= 3.5 ? colors.SUCCESS : (moon.rating >= 2.5 ? colors.PRIMARY : colors.WARNING);
+    // Barra de Nível Solunar Segmentada em Vetor (5 cápsulas Apple-style)
+    const activeCapsules = Math.max(1, Math.min(5, Math.round(moon.rating)));
+    const capW = px(26);
+    const capH = px(7);
+    const capY = curY + px(102);
+
+    for (let i = 0; i < 5; i++) {
+      this.createWidget(hmUI.widget.FILL_RECT, {
+        x: mX + px(14) + i * (capW + px(4)),
+        y: capY,
+        w: capW,
+        h: capH,
+        radius: px(3),
+        color: i < activeCapsules ? 0x30d158 : 0x3a3a3c
+      });
+    }
+
     this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(12),
-      y: curY + px(98),
-      w: colW - px(24),
-      h: px(22),
-      color: ratingColor,
-      text_size: px(15),
-      text: `${moon.stars} ${moon.ratingText}`
+      x: mX + px(14),
+      y: curY + px(116),
+      w: colW - px(28),
+      h: px(18),
+      color: 0x30d158,
+      text_size: px(13),
+      text: `QUALIDADE: ${moon.ratingText.toUpperCase()}`
     });
 
-    // Horário de Pico
     this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(12),
-      y: curY + px(122),
-      w: colW - px(24),
-      h: px(18),
-      color: colors.TEXT_DIM,
+      x: mX + px(14),
+      y: curY + px(132),
+      w: colW - px(28),
+      h: px(16),
+      color: 0x00d2ff,
       text_size: px(12),
       text: `Pico: ${moon.solunarPeriods.major1.split('-')[0]}`
     });
@@ -205,91 +204,94 @@ Page({
       w: colW,
       h: bento1H,
       radius: px(layout.radiusBento),
-      color: colors.CARD_BG
+      color: 0x1c1c1e
     });
 
-    this.createWidget(hmUI.widget.STROKE_RECT, {
-      x: col2X,
-      y: curY,
-      w: colW,
-      h: bento1H,
-      radius: px(layout.radiusBento),
-      line_width: px(2),
-      color: barometer.color
-    });
-
-    // Label do topo
     this.createWidget(hmUI.widget.TEXT, {
-      x: col2X + px(12),
-      y: curY + px(10),
-      w: colW - px(24),
-      h: px(18),
-      color: colors.TEXT_MUTED,
-      text_size: px(13),
-      text: '🧭 PRESSÃO'
+      x: col2X + px(14),
+      y: curY + px(12),
+      w: colW - px(28),
+      h: px(16),
+      color: 0x8e8e93,
+      text_size: px(12),
+      text: 'PRESSAO / HPA'
     });
 
-    // Número GIGANTE da Pressão (34px bold branco)
+    // Número GIGANTE da Pressão (40px bold branco)
     this.createWidget(hmUI.widget.TEXT, {
-      x: col2X + px(12),
-      y: curY + px(32),
-      w: colW - px(24),
-      h: px(44),
-      color: colors.TEXT_MAIN,
-      text_size: px(34),
+      x: col2X + px(14),
+      y: curY + px(30),
+      w: colW - px(28),
+      h: px(46),
+      color: 0xffffff,
+      text_size: px(40),
       text: `${barometer.pressure}`
     });
 
-    // Tendência / Tempo
     this.createWidget(hmUI.widget.TEXT, {
-      x: col2X + px(12),
-      y: curY + px(78),
-      w: colW - px(24),
+      x: col2X + px(14),
+      y: curY + px(76),
+      w: colW - px(28),
       h: px(20),
-      color: barometer.color,
+      color: 0x30d158,
       text_size: px(15),
-      text: `hPa • ${barometer.trend}`
+      text: barometer.trend.toUpperCase()
     });
 
-    // Atividade do Peixe
-    this.createWidget(hmUI.widget.TEXT, {
-      x: col2X + px(12),
-      y: curY + px(100),
-      w: colW - px(24),
-      h: px(20),
-      color: colors.SUCCESS,
-      text_size: px(14),
-      text: `🐟 ${barometer.status}`
-    });
+    // Medidor de Atividade dos Peixes (8 barras horizontais Apple Noise-style)
+    const activeBars = barometer.pressure >= 1014 ? 7 : (barometer.pressure >= 1009 ? 5 : 3);
+    const segW = px(15);
+    const segY = curY + px(102);
+
+    for (let i = 0; i < 8; i++) {
+      this.createWidget(hmUI.widget.FILL_RECT, {
+        x: col2X + px(14) + i * (segW + px(4)),
+        y: segY,
+        w: segW,
+        h: px(7),
+        radius: px(3),
+        color: i < activeBars ? 0x30d158 : 0x3a3a3c
+      });
+    }
 
     this.createWidget(hmUI.widget.TEXT, {
-      x: col2X + px(12),
-      y: curY + px(122),
-      w: colW - px(24),
+      x: col2X + px(14),
+      y: curY + px(116),
+      w: colW - px(28),
       h: px(18),
-      color: colors.TEXT_DIM,
+      color: 0x30d158,
+      text_size: px(13),
+      text: `PEIXES ATIVOS (${activeBars * 12}%)`
+    });
+
+    this.createWidget(hmUI.widget.TEXT, {
+      x: col2X + px(14),
+      y: curY + px(132),
+      w: colW - px(28),
+      h: px(16),
+      color: 0x8e8e93,
       text_size: px(12),
-      text: 'Sensor Ativo 🟢'
+      text: 'Iscas de Superficie'
     });
 
     curY += bento1H + px(12);
 
-    // 3. BENTO ROW 2: BOTÃO INTERATIVO DA BACIA & STATUS DO DEFESO
-    const basinBtnH = px(94);
-    const defesoBorder = defeso.isDefeso ? colors.DANGER : colors.SUCCESS;
+    // 3. BENTO ROW 2: BACIA & DEFESO (SUPERFÍCIE AMBIENTE VERDE ESMERALDA #082915)
+    // 3. BENTO ROW 2: BACIA & DEFESO (SUPERFÍCIE AMBIENTE VERDE ESMERALDA #082915)
+    const basinH = px(104);
+    const ambientBg = defeso.isDefeso ? 0x380a0a : 0x082915;
+    const ambientColor = defeso.isDefeso ? 0xff453a : 0x34c759;
+    const badgeBg = defeso.isDefeso ? 0xff453a : 0x30d158;
 
-    // Fundo da Bacia como Botão Nativo Real
+    // 1. Botão de Fundo NATIVO primeiro (Z-index base interativo)
     this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
       w: cW,
-      h: basinBtnH,
+      h: basinH,
       radius: px(layout.radiusBento),
-      normal_color: colors.CARD_BG,
-      press_color: colors.BTN_PRESS,
-      color: colors.TEXT_MAIN,
-      text_size: px(19),
-      text: `🌊 ${defeso.shortName} • [ ${defeso.statusBadge} ]\n${defeso.periodString}  (Toque p/ alternar 🔄)`,
+      normal_color: ambientBg,
+      press_color: defeso.isDefeso ? 0x4d1212 : 0x113d20,
       click_func: () => {
         const nextBasin = getNextBasinId(selectedBasin);
         setSelectedBasin(nextBasin);
@@ -298,108 +300,132 @@ Page({
       }
     });
 
-    // Borda indicadora colorida (Verde se Liberado, Vermelho se Defeso)
-    this.createWidget(hmUI.widget.STROKE_RECT, {
-      x: mX,
-      y: curY,
-      w: cW,
-      h: basinBtnH,
-      radius: px(layout.radiusBento),
-      line_width: px(2),
-      color: defesoBorder
+    // 2. Textos e Badges visíveis POR CIMA do botão
+    this.createWidget(hmUI.widget.TEXT, {
+      x: mX + px(18),
+      y: curY + px(14),
+      w: px(220),
+      h: px(18),
+      color: ambientColor,
+      text_size: px(13),
+      text: 'BACIA HIDROGRAFICA'
     });
 
-    curY += basinBtnH + px(12);
+    // Pílula sólida de status [ LIBERADO ]
+    const badgeW = px(104);
+    this.createWidget(hmUI.widget.FILL_RECT, {
+      x: mX + cW - badgeW - px(16),
+      y: curY + px(12),
+      w: badgeW,
+      h: px(24),
+      radius: px(12),
+      color: badgeBg
+    });
 
-    // 4. BENTO ROW 3: DOIS BOTÕES DE AÇÃO NATIVOS ESTILO APPLE WATCH
-    const actionBtnH = px(96);
+    this.createWidget(hmUI.widget.TEXT, {
+      x: mX + cW - badgeW - px(16),
+      y: curY + px(12),
+      w: badgeW,
+      h: px(24),
+      color: 0x000000,
+      text_size: px(13),
+      align_h: hmUI.align.CENTER_H,
+      align_v: hmUI.align.CENTER_V,
+      text: defeso.isDefeso ? 'DEFESO' : 'LIBERADO'
+    });
 
-    // Botão 1: Previsão 7 Dias (Azul Apple Watch)
+    // Nome da Bacia em destaque
+    this.createWidget(hmUI.widget.TEXT, {
+      x: mX + px(18),
+      y: curY + px(36),
+      w: cW - px(36),
+      h: px(30),
+      color: 0xffffff,
+      text_size: px(23),
+      text: defeso.shortName.toUpperCase()
+    });
+
+    this.createWidget(hmUI.widget.TEXT, {
+      x: mX + px(18),
+      y: curY + px(68),
+      w: cW - px(36),
+      h: px(24),
+      color: ambientColor,
+      text_size: px(13),
+      text: `Piracema: ${defeso.periodString}  [Toque p/ trocar 6 Bacias]`
+    });
+
+    curY += basinH + px(12);
+
+    // 4. BENTO ROW 3: DOIS CARTÕES DE AÇÃO SÓLIDOS watchOS 10
+    const actionH = px(94);
+
+    // === BOTÃO ESQUERDO: PREVISÃO 7 DIAS (AZUL ELÉTRICO #0066FF) ===
     this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
       w: colW,
-      h: actionBtnH,
+      h: actionH,
       radius: px(layout.radiusBento),
-      normal_color: colors.BTN_ACTION_BG,
-      press_color: colors.BTN_ACTION_PRESS,
+      normal_color: 0x0066ff,
+      press_color: 0x004ccc,
       color: 0xffffff,
-      text_size: px(19),
-      text: '📅 PREVISÃO\n7 Dias ➔',
+      text_size: px(18),
+      text: 'PREVISAO\n7 DIAS\nVer Calendario >',
       click_func: () => {
         push({ url: 'page/forecast/index' });
       }
     });
 
-    // Botão 2: Waypoints & GPS (Dark Navy com borda Coral)
+    // === BOTÃO DIREITO: WAYPOINTS (CORAL PROFUNDO #2C120E) ===
     this.createWidget(hmUI.widget.BUTTON, {
       x: col2X,
       y: curY,
       w: colW,
-      h: actionBtnH,
+      h: actionH,
       radius: px(layout.radiusBento),
-      normal_color: colors.CARD_BG,
-      press_color: colors.BTN_PRESS,
-      color: colors.ACCENT_ORANGE,
-      text_size: px(19),
-      text: `📍 PONTOS GPS\n${spots.length} Salvos ➔`,
+      normal_color: 0x2c120e,
+      press_color: 0x401a14,
+      color: 0xffffff,
+      text_size: px(18),
+      text: `PONTOS\nWAYPOINTS\n${spots.length} Salvos >`,
       click_func: () => {
         push({ url: 'page/spots/index' });
       }
     });
 
-    this.createWidget(hmUI.widget.STROKE_RECT, {
-      x: col2X,
-      y: curY,
-      w: colW,
-      h: actionBtnH,
-      radius: px(layout.radiusBento),
-      line_width: px(2),
-      color: colors.ACCENT_ORANGE
-    });
-
-    curY += actionBtnH + px(16);
+    curY += actionH + px(16);
 
     // 5. DETALHES COMPLEMENTARES (AO ROLAR A TELA)
-    // Cartão de Horário de Pico de Alimentação
-    const peakH = px(74);
+    // Horário de Pico Solunar
+    const peakH = px(76);
     this.createWidget(hmUI.widget.FILL_RECT, {
       x: mX,
       y: curY,
       w: cW,
       h: peakH,
       radius: px(layout.radiusBtn),
-      color: colors.BADGE_BG
-    });
-
-    this.createWidget(hmUI.widget.STROKE_RECT, {
-      x: mX,
-      y: curY,
-      w: cW,
-      h: peakH,
-      radius: px(layout.radiusBtn),
-      line_width: px(1),
-      color: colors.PRIMARY
+      color: 0x1c1c1e
     });
 
     this.createWidget(hmUI.widget.TEXT, {
       x: mX + px(16),
-      y: curY + px(8),
+      y: curY + px(10),
       w: cW - px(32),
-      h: px(22),
-      color: colors.PRIMARY,
-      text_size: px(15),
-      text: `🎣 ${str.majorPeak.toUpperCase()} (ALIMENTAÇÃO)`
+      h: px(20),
+      color: 0x00d2ff,
+      text_size: px(13),
+      text: 'PICO MAIOR DE ALIMENTACAO'
     });
 
     this.createWidget(hmUI.widget.TEXT, {
       x: mX + px(16),
       y: curY + px(34),
       w: cW - px(32),
-      h: px(28),
-      color: colors.TEXT_MAIN,
-      text_size: px(21),
-      text: `${moon.solunarPeriods.major1} • ${moon.phaseDescription}`
+      h: px(30),
+      color: 0xffffff,
+      text_size: px(20),
+      text: `${moon.solunarPeriods.major1} - ${moon.phaseDescription}`
     });
 
     curY += peakH + px(12);
@@ -411,11 +437,11 @@ Page({
       w: cW,
       h: px(58),
       radius: px(layout.radiusBtn),
-      normal_color: colors.BTN_BG,
-      press_color: colors.BTN_PRESS,
-      color: colors.BTN_TEXT,
-      text_size: px(19),
-      text: '📋  REGRAS DO DEFESO & PEIXES ➔',
+      normal_color: 0x1c1c1e,
+      press_color: 0x2c2c2e,
+      color: 0xffffff,
+      text_size: px(18),
+      text: 'VER REGRAS COMPLETAS DO DEFESO >',
       click_func: () => {
         push({ url: 'page/defeso/index' });
       }
@@ -430,11 +456,11 @@ Page({
       w: cW,
       h: px(52),
       radius: px(layout.radiusBtn),
-      normal_color: colors.BTN_BG,
-      press_color: colors.BTN_PRESS,
-      color: colors.PRIMARY,
-      text_size: px(18),
-      text: '🔄  RECALIBRAR SENSORES',
+      normal_color: 0x1c1c1e,
+      press_color: 0x2c2c2e,
+      color: 0x00d2ff,
+      text_size: px(17),
+      text: 'RECALIBRAR BAROMETRO',
       click_func: () => {
         this.clearUI();
         this.renderUI();
@@ -443,17 +469,17 @@ Page({
 
     curY += px(52) + px(16);
 
-    // Dica Rápida de Isca
+    // Dica Rápida
     this.createWidget(hmUI.widget.TEXT, {
       x: mX + px(16),
       y: curY,
       w: cW - px(32),
       h: px(32),
-      color: colors.TEXT_MUTED,
-      text_size: px(15),
+      color: 0x8e8e93,
+      text_size: px(14),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: `💡 ${barometer.recommendation}`
+      text: barometer.recommendation
     });
 
     curY += px(42);
@@ -464,8 +490,8 @@ Page({
       y: curY,
       w: cW,
       h: px(layout.bottomPadding),
-      color: colors.TEXT_DIM,
-      text_size: px(15),
+      color: 0x64748b,
+      text_size: px(14),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
       text: 'PescaMax • watchOS 10 Bento Grid'
