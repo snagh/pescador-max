@@ -1,7 +1,7 @@
-﻿# Privacy Policy / Política de Privacidade
+# Privacy Policy / Política de Privacidade
 
-**App**: Pescador Max / Angler Max  
-**Developer**: Pescador Max Team  
+**App**: PescaMax / Angler Max  
+**Developer**: PescaMax Team  
 **Repository**: https://github.com/snagh/pescador-max  
 **Last Updated**: September 14, 2026  
 
@@ -10,7 +10,7 @@
 ## English (Official Statement)
 
 ### 1. Overview
-Pescador Max ("the App") is committed to protecting your privacy. This application is designed to operate **100% offline** on your Zepp OS smartwatch. It does not collect, transmit, sell, or share any personal information, telemetry, or device data with the developer or any third party.
+PescaMax ("the App") is committed to protecting your privacy. This application is designed to operate **100% offline** on your Zepp OS smartwatch. It does not collect, transmit, sell, or share any personal information, telemetry, or device data with the developer or any third party.
 
 ### 2. Permissions Used and Purpose
 The App requests only the minimum permissions necessary to deliver its core fishing features:
@@ -36,7 +36,7 @@ https://github.com/snagh/pescador-max
 ## Português (Declaração de Privacidade)
 
 ### 1. Visão Geral
-O aplicativo Pescador Max ("o Aplicativo") respeita integralmente a sua privacidade. Ele foi desenvolvido para funcionar de forma **100% offline** no seu smartwatch com Zepp OS, sem coletar, transmitir ou compartilhar dados pessoais com servidores externos ou terceiros.
+O aplicativo PescaMax ("o Aplicativo") respeita integralmente a sua privacidade. Ele foi desenvolvido para funcionar de forma **100% offline** no seu smartwatch com Zepp OS, sem coletar, transmitir ou compartilhar dados pessoais com servidores externos ou terceiros.
 
 ### 2. Permissões Solicitadas e Finalidade
 O aplicativo utiliza apenas as permissões essenciais para suas funcionalidades de pesca:

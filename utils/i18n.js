@@ -26,7 +26,7 @@ export function setAppLanguage(lang) {
 
 export const STRINGS = {
   pt: {
-    appTitle: 'PESCADOR MAX 🎣',
+    appTitle: 'PESCAMAX 🎣',
     langToggle: '🇧🇷 PT ▾',
     themeDark: '🌙 ESCURO ▾',
     themeLight: '☀️ CLARO ▾',
@@ -95,7 +95,7 @@ export const STRINGS = {
     solunarFooter: 'Teoria Solunar • John Alden Knight'
   },
   en: {
-    appTitle: 'ANGLER MAX 🎣',
+    appTitle: 'PESCAMAX 🎣',
     langToggle: '🇺🇸 EN ▾',
     themeDark: '🌙 DARK ▾',
     themeLight: '☀️ LIGHT ▾',
