@@ -25,25 +25,31 @@ const svgSquare1 = `
   <rect width="360" height="360" rx="16" fill="#000000" />
 
   <!-- Título -->
-  <text x="180" y="32" fill="#38bdf8" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCADOR MAX 🎣</text>
-  <text x="180" y="52" fill="#94a3b8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Segunda, 14 de Setembro</text>
+  <text x="180" y="30" fill="#38bdf8" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCADOR MAX 🎣</text>
+  <text x="180" y="48" fill="#94a3b8" font-size="12.5" font-family="Arial, sans-serif" text-anchor="middle">Segunda, 14 de Setembro</text>
+
+  <!-- Seletor de Idioma e Modo Escuro -->
+  <rect x="52" y="56" width="122" height="26" rx="8" fill="#1e293b" />
+  <text x="113" y="74" fill="#f97316" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌐 PT/EN ▾</text>
+  <rect x="186" y="56" width="122" height="26" rx="8" fill="#1e293b" />
+  <text x="247" y="74" fill="#38bdf8" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌙 ESCURO ▾</text>
 
   <!-- Cartão Lua e Solunar -->
-  <rect x="14" y="62" width="332" height="175" rx="14" fill="url(#cardGradSq)" stroke="#1e293b" stroke-width="2" />
+  <rect x="14" y="90" width="332" height="152" rx="14" fill="url(#cardGradSq)" stroke="#1e293b" stroke-width="1.5" />
   
-  <text x="180" y="90" fill="#ffffff" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">LUA CRESCENTE 🌒</text>
-  <text x="180" y="112" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" text-anchor="middle">Iluminação: 23% • Idade: 3.7d</text>
-  <text x="180" y="136" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCA: BOM ★★★☆</text>
-  <text x="180" y="158" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Atividade alimentar em crescimento para peixes</text>
-  <text x="180" y="180" fill="#38bdf8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Pico Maior: 13:57 - 15:57</text>
-  <text x="180" y="200" fill="#64748b" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Pico Menor: 19:57 - 20:57</text>
+  <text x="180" y="116" fill="#ffffff" font-size="19" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">LUA CRESCENTE 🌒</text>
+  <text x="180" y="136" fill="#f97316" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Iluminação: 23% • Idade: 3.7d</text>
+  <text x="180" y="158" fill="#10b981" font-size="15" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCA: BOM ★★★☆</text>
+  <text x="180" y="178" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif" text-anchor="middle">Atividade alimentar em crescimento para peixes</text>
+  <text x="180" y="198" fill="#38bdf8" font-size="12.5" font-family="Arial, sans-serif" text-anchor="middle">Pico Maior: 13:57 - 15:57</text>
+  <text x="180" y="216" fill="#64748b" font-size="11.5" font-family="Arial, sans-serif" text-anchor="middle">Pico Menor: 19:57 - 20:57</text>
 
   <!-- Cartão Barômetro -->
-  <rect x="14" y="246" width="332" height="100" rx="14" fill="url(#cardGradSq)" stroke="#10b981" stroke-width="2" />
-  <text x="30" y="270" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">BARÔMETRO &amp; PRESSÃO</text>
-  <text x="30" y="294" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold">🧭 Alta (1018 hPa) • Tempo Firme</text>
-  <text x="30" y="316" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Excelente! Peixes ativos em meia-água e superfície.</text>
-  <text x="30" y="334" fill="#94a3b8" font-size="11" font-family="Arial, sans-serif">Dica: Use iscas de superfície (Zaras/Poppers).</text>
+  <rect x="14" y="250" width="332" height="96" rx="14" fill="url(#cardGradSq)" stroke="#10b981" stroke-width="1.5" />
+  <text x="28" y="272" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif">BARÔMETRO &amp; PRESSÃO EM TEMPO REAL</text>
+  <text x="28" y="294" fill="#10b981" font-size="15" font-family="Arial, sans-serif" font-weight="bold">🧭 Alta (1018 hPa) • Tempo Firme</text>
+  <text x="28" y="314" fill="#ffffff" font-size="11.5" font-family="Arial, sans-serif">Excelente! Peixes ativos em meia-água e superfície.</text>
+  <text x="28" y="332" fill="#94a3b8" font-size="11" font-family="Arial, sans-serif">Dica: Use iscas de superfície (Zaras/Poppers).</text>
 </svg>
 `;
 
@@ -70,7 +76,7 @@ const svgSquare2 = `
 
   <!-- Cartão Espécies Protegidas -->
   <rect x="14" y="210" width="332" height="135" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
-  <text x="28" y="234" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 ESPÉCIES NATIVAS PROTEGIDAS</text>
+  <text x="28" y="234" fill="#f97316" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 ESPÉCIES NATIVAS PROTEGIDAS</text>
   <text x="28" y="258" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Dourado, Pintado, Jaú, Curimbatá, Piapara, Pacu</text>
   <text x="28" y="282" fill="#10b981" font-size="12" font-family="Arial, sans-serif">✔ Pesque-e-solte de tucunaré/tilápia liberado em represas.</text>
   <text x="28" y="304" fill="#ef4444" font-size="11" font-family="Arial, sans-serif">✖ Proibido redes, tarrafas e pescaria a 1500m de barragens.</text>
@@ -105,7 +111,7 @@ const svgSquare3 = `
   <text x="28" y="214" fill="#38bdf8" font-size="15" font-family="Arial, sans-serif" font-weight="bold">GUIA DE ISCAS POR LOCAL</text>
   
   <rect x="14" y="226" width="332" height="118" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
-  <text x="28" y="250" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🎣 Represas &amp; Lagos</text>
+  <text x="28" y="250" fill="#f97316" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🎣 Represas &amp; Lagos</text>
   <text x="28" y="272" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Peixes: Tucunaré, Tilápia, Traíra, Black Bass</text>
   <text x="28" y="294" fill="#38bdf8" font-size="12" font-family="Arial, sans-serif">Iscas: Superfície (Zara/Popper), Meia-água, Softs</text>
   <text x="28" y="316" fill="#94a3b8" font-size="11" font-family="Arial, sans-serif">Dica: Procure troncos submersos e pontas de ilhas.</text>

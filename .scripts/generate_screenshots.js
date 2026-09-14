@@ -36,23 +36,30 @@ const svgScreen1 = `
     <rect width="360" height="360" fill="#000000" />
 
     <!-- Título -->
-    <text x="180" y="44" fill="#38bdf8" font-size="22" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCADOR MAX 🎣</text>
-    <text x="180" y="66" fill="#94a3b8" font-size="14" font-family="Arial, sans-serif" text-anchor="middle">Segunda, 14 de Setembro</text>
+    <text x="180" y="34" fill="#38bdf8" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCADOR MAX 🎣</text>
+    <text x="180" y="52" fill="#94a3b8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Segunda, 14 de Setembro</text>
+
+    <!-- Seletor de Idioma e Modo Escuro -->
+    <rect x="58" y="60" width="116" height="26" rx="8" fill="#1e293b" />
+    <text x="116" y="78" fill="#f97316" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌐 PT/EN ▾</text>
+    <rect x="186" y="60" width="116" height="26" rx="8" fill="#1e293b" />
+    <text x="244" y="78" fill="#38bdf8" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌙 ESCURO ▾</text>
 
     <!-- Cartão Lua e Solunar -->
-    <rect x="30" y="80" width="300" height="150" rx="16" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="2" />
+    <rect x="28" y="94" width="304" height="142" rx="14" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="1.5" />
     
-    <text x="180" y="110" fill="#ffffff" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">LUA CRESCENTE 🌒</text>
-    <text x="180" y="132" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" text-anchor="middle">Iluminação: 23% • Idade: 3.7d</text>
-    <text x="180" y="156" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCA: BOM ★★★☆</text>
-    <text x="180" y="178" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Atividade alimentar em crescimento</text>
-    <text x="180" y="202" fill="#38bdf8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Pico Maior: 13:57 - 15:57</text>
+    <text x="180" y="118" fill="#ffffff" font-size="18" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">LUA CRESCENTE 🌒</text>
+    <text x="180" y="138" fill="#f97316" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Iluminação: 23% • Idade: 3.7d</text>
+    <text x="180" y="160" fill="#10b981" font-size="15" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">PESCA: BOM ★★★☆</text>
+    <text x="180" y="180" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif" text-anchor="middle">Atividade alimentar em crescimento</text>
+    <text x="180" y="200" fill="#38bdf8" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Pico Maior: 13:57 - 15:57</text>
+    <text x="180" y="218" fill="#64748b" font-size="11" font-family="Arial, sans-serif" text-anchor="middle">Pico Menor: 19:57 - 20:57</text>
 
     <!-- Cartão Barômetro -->
-    <rect x="30" y="240" width="300" height="85" rx="16" fill="url(#cardGrad)" stroke="#10b981" stroke-width="2" />
-    <text x="50" y="264" fill="#94a3b8" font-size="13" font-family="Arial, sans-serif">BARÔMETRO &amp; PRESSÃO</text>
-    <text x="50" y="288" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold">🧭 Alta (1018 hPa) • Tempo Firme</text>
-    <text x="50" y="308" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Excelente! Peixes ativos em meia-água.</text>
+    <rect x="28" y="244" width="304" height="84" rx="14" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.5" />
+    <text x="44" y="266" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif">BARÔMETRO &amp; PRESSÃO</text>
+    <text x="44" y="288" fill="#10b981" font-size="14.5" font-family="Arial, sans-serif" font-weight="bold">🧭 Alta (1018 hPa) • Tempo Firme</text>
+    <text x="44" y="308" fill="#ffffff" font-size="11.5" font-family="Arial, sans-serif">Excelente! Peixes ativos e caçando.</text>
   </g>
 </svg>
 `;
@@ -77,19 +84,19 @@ const svgScreen2 = `
     <!-- Dia 1: Hoje -->
     <rect x="30" y="68" width="300" height="78" rx="14" fill="#162438" stroke="#38bdf8" stroke-width="2" />
     <text x="45" y="90" fill="#38bdf8" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Seg, 14/09 [HOJE]</text>
-    <text x="45" y="110" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">Crescente (23%) • Pesca: BOM ★★★☆</text>
+    <text x="45" y="110" fill="#f97316" font-size="13" font-family="Arial, sans-serif">Crescente (23%) • Pesca: BOM ★★★☆</text>
     <text x="45" y="130" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Pico Maior: 13:57 - 15:57</text>
 
     <!-- Dia 2 -->
     <rect x="30" y="156" width="300" height="78" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
     <text x="45" y="178" fill="#ffffff" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Ter, 15/09</text>
-    <text x="45" y="198" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">Crescente (32%) • Pesca: BOM ★★★☆</text>
+    <text x="45" y="198" fill="#f97316" font-size="13" font-family="Arial, sans-serif">Crescente (32%) • Pesca: BOM ★★★☆</text>
     <text x="45" y="218" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Pico Maior: 14:45 - 16:45</text>
 
     <!-- Dia 3 -->
     <rect x="30" y="244" width="300" height="78" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
     <text x="45" y="266" fill="#ffffff" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Qua, 16/09</text>
-    <text x="45" y="286" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">Quarto Crescente (42%) • Pesca: REGULAR</text>
+    <text x="45" y="286" fill="#f97316" font-size="13" font-family="Arial, sans-serif">Quarto Crescente (42%) • Pesca: REGULAR</text>
     <text x="45" y="306" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Pico Maior: 15:30 - 17:30</text>
   </g>
 </svg>
@@ -124,7 +131,7 @@ const svgScreen3 = `
 
     <!-- Cartão Espécies Protegidas -->
     <rect x="30" y="226" width="300" height="85" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
-    <text x="45" y="248" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 ESPÉCIES PROTEGIDAS</text>
+    <text x="45" y="248" fill="#f97316" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 ESPÉCIES PROTEGIDAS</text>
     <text x="45" y="272" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Dourado, Pintado, Jaú, Curimbatá, Piapara, Pacu</text>
     <text x="45" y="292" fill="#38bdf8" font-size="12" font-family="Arial, sans-serif">Pesque-e-solte de tucunaré liberado em represas.</text>
   </g>

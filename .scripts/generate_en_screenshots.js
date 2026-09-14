@@ -29,22 +29,29 @@ const svgRound1 = `
   </defs>
   <g clip-path="url(#cClip1)">
     <rect width="360" height="360" fill="#000000" />
-    <text x="180" y="44" fill="#38bdf8" font-size="22" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">ANGLER MAX 🎣</text>
-    <text x="180" y="66" fill="#94a3b8" font-size="14" font-family="Arial, sans-serif" text-anchor="middle">Monday, September 14</text>
+    <text x="180" y="34" fill="#38bdf8" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">ANGLER MAX 🎣</text>
+    <text x="180" y="52" fill="#94a3b8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Monday, September 14</text>
+
+    <!-- Language and Dark Mode buttons -->
+    <rect x="58" y="60" width="116" height="26" rx="8" fill="#1e293b" />
+    <text x="116" y="78" fill="#f97316" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌐 PT/EN ▾</text>
+    <rect x="186" y="60" width="116" height="26" rx="8" fill="#1e293b" />
+    <text x="244" y="78" fill="#38bdf8" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌙 DARK ▾</text>
 
     <!-- Card 1: Lunar & Solunar -->
-    <rect x="30" y="80" width="300" height="150" rx="16" fill="url(#gCard)" stroke="#1e293b" stroke-width="2" />
-    <text x="180" y="110" fill="#ffffff" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">WAXING CRESCENT 🌒</text>
-    <text x="180" y="132" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" text-anchor="middle">Illumination: 23% • Age: 3.7d</text>
-    <text x="180" y="156" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">FISHING: GOOD ★★★☆</text>
-    <text x="180" y="178" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Feeding activity rising for active fish</text>
-    <text x="180" y="202" fill="#38bdf8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Major Peak: 01:57 PM - 03:57 PM</text>
+    <rect x="28" y="94" width="304" height="142" rx="14" fill="url(#gCard)" stroke="#1e293b" stroke-width="1.5" />
+    <text x="180" y="118" fill="#ffffff" font-size="18" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">WAXING CRESCENT 🌒</text>
+    <text x="180" y="138" fill="#f97316" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Illumination: 23% • Age: 3.7d</text>
+    <text x="180" y="160" fill="#10b981" font-size="15" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">FISHING: GOOD ★★★☆</text>
+    <text x="180" y="180" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif" text-anchor="middle">Feeding activity rising for active fish</text>
+    <text x="180" y="200" fill="#38bdf8" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Major Peak: 01:57 PM - 03:57 PM</text>
+    <text x="180" y="218" fill="#64748b" font-size="11" font-family="Arial, sans-serif" text-anchor="middle">Minor Peak: 07:57 PM - 08:57 PM</text>
 
     <!-- Card 2: Barometer -->
-    <rect x="30" y="240" width="300" height="85" rx="16" fill="url(#gCard)" stroke="#10b981" stroke-width="2" />
-    <text x="50" y="264" fill="#94a3b8" font-size="13" font-family="Arial, sans-serif">BAROMETER &amp; PRESSURE</text>
-    <text x="50" y="288" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold">🧭 High (1018 hPa) • Fair Weather</text>
-    <text x="50" y="308" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Excellent! Fish actively feeding near surface.</text>
+    <rect x="28" y="244" width="304" height="84" rx="14" fill="url(#gCard)" stroke="#10b981" stroke-width="1.5" />
+    <text x="44" y="266" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif">BAROMETER &amp; PRESSURE</text>
+    <text x="44" y="288" fill="#10b981" font-size="14.5" font-family="Arial, sans-serif" font-weight="bold">🧭 High (1018 hPa) • Fair Weather</text>
+    <text x="44" y="308" fill="#ffffff" font-size="11.5" font-family="Arial, sans-serif">Excellent! Fish actively feeding near surface.</text>
   </g>
 </svg>
 `;
@@ -62,19 +69,19 @@ const svgRound2 = `
     <!-- Day 1 -->
     <rect x="30" y="68" width="300" height="78" rx="14" fill="#162438" stroke="#38bdf8" stroke-width="2" />
     <text x="45" y="90" fill="#38bdf8" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Mon, Sep 14 [TODAY]</text>
-    <text x="45" y="110" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">Crescent (23%) • Fishing: GOOD ★★★☆</text>
+    <text x="45" y="110" fill="#f97316" font-size="13" font-family="Arial, sans-serif">Crescent (23%) • Fishing: GOOD ★★★☆</text>
     <text x="45" y="130" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Major Peak: 01:57 PM - 03:57 PM</text>
 
     <!-- Day 2 -->
     <rect x="30" y="156" width="300" height="78" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
     <text x="45" y="178" fill="#ffffff" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Tue, Sep 15</text>
-    <text x="45" y="198" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">Crescent (32%) • Fishing: GOOD ★★★☆</text>
+    <text x="45" y="198" fill="#f97316" font-size="13" font-family="Arial, sans-serif">Crescent (32%) • Fishing: GOOD ★★★☆</text>
     <text x="45" y="218" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Major Peak: 02:45 PM - 04:45 PM</text>
 
     <!-- Day 3 -->
     <rect x="30" y="244" width="300" height="78" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
     <text x="45" y="266" fill="#ffffff" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Wed, Sep 16</text>
-    <text x="45" y="286" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">First Quarter (42%) • Fishing: FAIR ★★☆☆</text>
+    <text x="45" y="286" fill="#f97316" font-size="13" font-family="Arial, sans-serif">First Quarter (42%) • Fishing: FAIR ★★☆☆</text>
     <text x="45" y="306" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Major Peak: 03:30 PM - 05:30 PM</text>
   </g>
 </svg>
@@ -102,7 +109,7 @@ const svgRound3 = `
 
     <!-- Protected Species -->
     <rect x="30" y="226" width="300" height="85" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
-    <text x="45" y="248" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 PROTECTED SPECIES</text>
+    <text x="45" y="248" fill="#f97316" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 PROTECTED SPECIES</text>
     <text x="45" y="272" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Golden Dorado, Sorubim Catfish, Jau, Pacu</text>
     <text x="45" y="292" fill="#38bdf8" font-size="12" font-family="Arial, sans-serif">Catch-and-release open for bass in reservoirs.</text>
   </g>
@@ -149,24 +156,30 @@ const svgRound4 = `
 const svgSquare1 = `
 <svg width="360" height="360" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
   <rect width="360" height="360" rx="16" fill="#000000" />
-  <text x="180" y="32" fill="#38bdf8" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">ANGLER MAX 🎣</text>
-  <text x="180" y="52" fill="#94a3b8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Monday, September 14</text>
+  <text x="180" y="30" fill="#38bdf8" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">ANGLER MAX 🎣</text>
+  <text x="180" y="48" fill="#94a3b8" font-size="12.5" font-family="Arial, sans-serif" text-anchor="middle">Monday, September 14</text>
+
+  <!-- Language and Dark Mode buttons -->
+  <rect x="52" y="56" width="122" height="26" rx="8" fill="#1e293b" />
+  <text x="113" y="74" fill="#f97316" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌐 PT/EN ▾</text>
+  <rect x="186" y="56" width="122" height="26" rx="8" fill="#1e293b" />
+  <text x="247" y="74" fill="#38bdf8" font-size="11" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">🌙 DARK ▾</text>
 
   <!-- Lunar Card -->
-  <rect x="14" y="62" width="332" height="175" rx="14" fill="#162032" stroke="#1e293b" stroke-width="2" />
-  <text x="180" y="90" fill="#ffffff" font-size="20" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">WAXING CRESCENT 🌒</text>
-  <text x="180" y="112" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" text-anchor="middle">Illumination: 23% • Age: 3.7d</text>
-  <text x="180" y="136" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">FISHING: GOOD ★★★☆</text>
-  <text x="180" y="158" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Feeding activity rising for active game fish</text>
-  <text x="180" y="180" fill="#38bdf8" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Major Peak: 01:57 PM - 03:57 PM</text>
-  <text x="180" y="200" fill="#64748b" font-size="12" font-family="Arial, sans-serif" text-anchor="middle">Minor Peak: 07:57 PM - 08:57 PM</text>
+  <rect x="14" y="90" width="332" height="152" rx="14" fill="#162032" stroke="#1e293b" stroke-width="1.5" />
+  <text x="180" y="116" fill="#ffffff" font-size="19" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">WAXING CRESCENT 🌒</text>
+  <text x="180" y="136" fill="#f97316" font-size="13" font-family="Arial, sans-serif" text-anchor="middle">Illumination: 23% • Age: 3.7d</text>
+  <text x="180" y="158" fill="#10b981" font-size="15" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">FISHING: GOOD ★★★☆</text>
+  <text x="180" y="178" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif" text-anchor="middle">Feeding activity rising for active game fish</text>
+  <text x="180" y="198" fill="#38bdf8" font-size="12.5" font-family="Arial, sans-serif" text-anchor="middle">Major Peak: 01:57 PM - 03:57 PM</text>
+  <text x="180" y="216" fill="#64748b" font-size="11.5" font-family="Arial, sans-serif" text-anchor="middle">Minor Peak: 07:57 PM - 08:57 PM</text>
 
   <!-- Barometer Card -->
-  <rect x="14" y="246" width="332" height="100" rx="14" fill="#162032" stroke="#10b981" stroke-width="2" />
-  <text x="30" y="270" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">BAROMETER &amp; PRESSURE</text>
-  <text x="30" y="294" fill="#10b981" font-size="16" font-family="Arial, sans-serif" font-weight="bold">🧭 High (1018 hPa) • Fair Weather</text>
-  <text x="30" y="316" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Excellent! Fish actively feeding near surface and mid-water.</text>
-  <text x="30" y="334" fill="#94a3b8" font-size="11" font-family="Arial, sans-serif">Tip: Great for topwater lures, poppers and jerkbaits.</text>
+  <rect x="14" y="250" width="332" height="96" rx="14" fill="#162032" stroke="#10b981" stroke-width="1.5" />
+  <text x="28" y="272" fill="#94a3b8" font-size="11.5" font-family="Arial, sans-serif">BAROMETER &amp; PRESSURE</text>
+  <text x="28" y="294" fill="#10b981" font-size="15" font-family="Arial, sans-serif" font-weight="bold">🧭 High (1018 hPa) • Fair Weather</text>
+  <text x="28" y="314" fill="#ffffff" font-size="11.5" font-family="Arial, sans-serif">Excellent! Fish actively feeding near surface and mid-water.</text>
+  <text x="28" y="332" fill="#94a3b8" font-size="11" font-family="Arial, sans-serif">Tip: Great for topwater lures, poppers and jerkbaits.</text>
 </svg>
 `;
 
@@ -181,21 +194,21 @@ const svgSquare2 = `
   <!-- Day 1 -->
   <rect x="14" y="52" width="332" height="90" rx="12" fill="#162438" stroke="#38bdf8" stroke-width="2" />
   <text x="28" y="74" fill="#38bdf8" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Monday, Sep 14 [TODAY]</text>
-  <text x="28" y="96" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">Waxing Crescent • 23% Illumination</text>
+  <text x="28" y="96" fill="#f97316" font-size="13" font-family="Arial, sans-serif">Waxing Crescent • 23% Illumination</text>
   <text x="28" y="116" fill="#10b981" font-size="13" font-family="Arial, sans-serif" font-weight="bold">Fishing: GOOD ★★★☆</text>
   <text x="28" y="134" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Major: 01:57 PM - 03:57 PM | Minor: 07:57 PM - 08:57 PM</text>
 
   <!-- Day 2 -->
   <rect x="14" y="152" width="332" height="90" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
   <text x="28" y="174" fill="#ffffff" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Tuesday, Sep 15</text>
-  <text x="28" y="196" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">Waxing Crescent • 32% Illumination</text>
+  <text x="28" y="196" fill="#f97316" font-size="13" font-family="Arial, sans-serif">Waxing Crescent • 32% Illumination</text>
   <text x="28" y="216" fill="#10b981" font-size="13" font-family="Arial, sans-serif" font-weight="bold">Fishing: GOOD ★★★☆</text>
   <text x="28" y="234" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Major: 02:45 PM - 04:45 PM | Minor: 08:45 PM - 09:45 PM</text>
 
   <!-- Day 3 -->
   <rect x="14" y="252" width="332" height="90" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
   <text x="28" y="274" fill="#ffffff" font-size="15" font-family="Arial, sans-serif" font-weight="bold">Wednesday, Sep 16</text>
-  <text x="28" y="296" fill="#fbbf24" font-size="13" font-family="Arial, sans-serif">First Quarter • 42% Illumination</text>
+  <text x="28" y="296" fill="#f97316" font-size="13" font-family="Arial, sans-serif">First Quarter • 42% Illumination</text>
   <text x="28" y="316" fill="#f59e0b" font-size="13" font-family="Arial, sans-serif" font-weight="bold">Fishing: FAIR ★★☆☆</text>
   <text x="28" y="334" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Major: 03:30 PM - 05:30 PM | Minor: 09:30 PM - 10:30 PM</text>
 </svg>
@@ -219,7 +232,7 @@ const svgSquare3 = `
   <text x="28" y="190" fill="#64748b" font-size="11" font-family="Arial, sans-serif">Paraná, Tietê, Paranapanema and Grande rivers</text>
 
   <rect x="14" y="210" width="332" height="135" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
-  <text x="28" y="234" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 PROTECTED NATIVE SPECIES</text>
+  <text x="28" y="234" fill="#f97316" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🐟 PROTECTED NATIVE SPECIES</text>
   <text x="28" y="258" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Golden Dorado, Sorubim Catfish, Jau, Curimbata, Pacu</text>
   <text x="28" y="282" fill="#10b981" font-size="12" font-family="Arial, sans-serif">✔ Sport catch-and-release allowed for bass in reservoirs.</text>
   <text x="28" y="304" fill="#ef4444" font-size="11" font-family="Arial, sans-serif">✖ Commercial nets, trotlines and dam fishing strictly prohibited.</text>
@@ -250,7 +263,7 @@ const svgSquare4 = `
   <text x="28" y="214" fill="#38bdf8" font-size="15" font-family="Arial, sans-serif" font-weight="bold">BAIT GUIDE BY SPOT</text>
   
   <rect x="14" y="226" width="332" height="118" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="2" />
-  <text x="28" y="250" fill="#fbbf24" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🎣 Lakes &amp; Reservoirs</text>
+  <text x="28" y="250" fill="#f97316" font-size="14" font-family="Arial, sans-serif" font-weight="bold">🎣 Lakes &amp; Reservoirs</text>
   <text x="28" y="272" fill="#ffffff" font-size="12" font-family="Arial, sans-serif">Target: Bass, Peacock Bass, Tilapia, Pike</text>
   <text x="28" y="294" fill="#38bdf8" font-size="12" font-family="Arial, sans-serif">Baits: Topwater (Zara/Popper), Jerkbaits, Soft Plastics</text>
   <text x="28" y="316" fill="#94a3b8" font-size="11" font-family="Arial, sans-serif">Tip: Cast near sunken timber, weed lines and drop-offs.</text>
