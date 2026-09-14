@@ -119,6 +119,23 @@ export function getMoonDetails(date = new Date(), lang = 'pt') {
     return `${hours < 10 ? '0' : ''}${hours}:${mins < 10 ? '0' : ''}${mins}`;
   };
 
+  // Identifica o melhor pico durante o dia (6h às 19h) e durante a noite
+  let dayStart = major1Start;
+  let dayEnd = major1End;
+  let nightStart = major2Start;
+  let nightEnd = major2End;
+
+  if (major2Start >= 6 && major2Start < 19) {
+    dayStart = major2Start;
+    dayEnd = major2End;
+    nightStart = major1Start;
+    nightEnd = major1End;
+  }
+
+  const periodName = dayStart < 12 ? (isEn ? 'Morning' : 'Manhã') : (dayStart < 18 ? (isEn ? 'Afternoon' : 'Tarde') : (isEn ? 'Evening' : 'Noite'));
+  const bestPeak = `${periodName}: ${formatHour(dayStart)} às ${formatHour(dayEnd)}`;
+  const bestShort = `${formatHour(dayStart)} (${periodName})`;
+
   return {
     age: Math.round(age * 10) / 10,
     illumination,
@@ -129,6 +146,10 @@ export function getMoonDetails(date = new Date(), lang = 'pt') {
     rating,
     ratingText,
     stars,
+    bestPeak,
+    bestShort,
+    daytimePeak: `${formatHour(dayStart)} - ${formatHour(dayEnd)}`,
+    nighttimePeak: `${formatHour(nightStart)} - ${formatHour(nightEnd)}`,
     solunarPeriods: {
       major1: `${formatHour(major1Start)} - ${formatHour(major1End)}`,
       major2: `${formatHour(major2Start)} - ${formatHour(major2End)}`,

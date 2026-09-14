@@ -8,41 +8,47 @@ export function interpretBarometer(pressureHpa, lang = 'pt') {
   const strings = t(lang);
   const hpa = Math.round(pressureHpa && pressureHpa > 0 ? pressureHpa : 1013);
 
+  const base = {
+    hpa,
+    pressure: hpa,
+    unit: 'hPa'
+  };
+
   if (hpa >= 1016) {
     return {
-      hpa,
+      ...base,
       status: `${strings.baroHigh} (${hpa} hPa)`,
       trend: strings.trendHigh,
       fishActivity: strings.descHigh,
       recommendation: strings.tipHigh,
-      color: 0x10b981
+      color: 0x00e676 // Verde Esmeralda Neon
     };
   } else if (hpa >= 1010) {
     return {
-      hpa,
+      ...base,
       status: `${strings.baroStable} (${hpa} hPa)`,
       trend: strings.trendStable,
       fishActivity: strings.descStable,
       recommendation: strings.tipStable,
-      color: 0x38bdf8
+      color: 0x00d2ff // Ciano Neon
     };
   } else if (hpa >= 1005) {
     return {
-      hpa,
+      ...base,
       status: `${strings.baroLow} (${hpa} hPa)`,
       trend: strings.trendLow,
       fishActivity: strings.descLow,
       recommendation: strings.tipLow,
-      color: 0xf59e0b
+      color: 0xffb300 // Âmbar Atenção
     };
   } else {
     return {
-      hpa,
+      ...base,
       status: `${strings.baroVeryLow} (${hpa} hPa)`,
       trend: strings.trendVeryLow,
       fishActivity: strings.descVeryLow,
       recommendation: strings.tipVeryLow,
-      color: 0xef4444
+      color: 0xff3b30 // Vermelho
     };
   }
 }
@@ -52,12 +58,14 @@ export function getBarometerReading(lang = 'pt') {
     const { Barometer } = require('@zos/sensor');
     if (Barometer) {
       const bar = new Barometer();
-      const hpa = bar.getAirPressure();
+      const rawHpa = bar.getAirPressure();
       const altitude = bar.getAltitude();
-      if (hpa && hpa > 300 && hpa < 1200) {
+      if (rawHpa && rawHpa > 300 && rawHpa < 1200) {
+        const hpa = Math.round(rawHpa);
         return {
           available: true,
-          hpa: Math.round(hpa),
+          hpa,
+          pressure: hpa,
           altitude: Math.round(altitude || 0),
           ...interpretBarometer(hpa, lang)
         };
@@ -68,6 +76,7 @@ export function getBarometerReading(lang = 'pt') {
   return {
     available: false,
     hpa: 1013,
+    pressure: 1013,
     altitude: 0,
     ...interpretBarometer(1013, lang)
   };
@@ -100,6 +109,8 @@ export function getCurrentCoordinates(lang = 'pt') {
 
   return {
     available: false,
-    string: isEn ? 'Watch Tagged Location' : 'Marcado no Relógio'
+    lat: '0.0000',
+    lon: '0.0000',
+    string: isEn ? 'GPS searching...' : 'GPS buscando sinal...'
   };
 }

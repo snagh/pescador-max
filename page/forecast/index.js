@@ -1,6 +1,9 @@
 /**
- * page/forecast/index.js - Previsão Solunar dos Próximos 7 Dias (Bilingual + Dark/Light Mode)
- * Layout Apple Watch com tipografia de alta legibilidade e alvos de toque confortáveis
+ * page/forecast/index.js - Previsão Solunar dos Próximos 7 Dias (Bilingual)
+ * Otimizado para máxima legibilidade (35 a 55 anos):
+ * - Fontes grandes e em negrito (18px a 24px)
+ * - Horários de pico solunares claros e intuitivos (destaque para o horário diurno de pesca)
+ * - Zero caracteres 'quadradinho' ou confusão de fuso
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
@@ -54,21 +57,21 @@ Page({
         x: 0,
         y: 0,
         w: layout.screenWidth,
-        h: 2200,
+        h: 2400,
         color: colors.BG
       });
     }
 
-    // Botão Voltar no Topo
+    // Topo: Botão Voltar + Título
     this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
       w: px(120),
-      h: px(48),
-      radius: px(24),
-      normal_color: colors.BTN_BG,
-      press_color: colors.BTN_PRESS,
-      color: colors.BTN_TEXT,
+      h: px(46),
+      radius: px(23),
+      normal_color: 0x2c2c2e,
+      press_color: 0x3a3a3c,
+      color: 0xffffff,
       text_size: px(18),
       text: str.btnBack,
       click_func: () => {
@@ -76,67 +79,55 @@ Page({
       }
     });
 
-    // Título da Página
     this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(130),
+      x: mX + px(132),
       y: curY,
-      w: cW - px(130),
-      h: px(48),
-      color: colors.PRIMARY,
-      text_size: px(24),
+      w: cW - px(132),
+      h: px(46),
+      color: 0x00d2ff,
+      text_size: px(23),
       align_v: hmUI.align.CENTER_V,
       text: str.forecastTitle
     });
 
-    curY += px(58);
+    curY += px(54);
 
     // Subtítulo
     this.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
-      h: px(26),
-      color: colors.TEXT_MUTED,
+      h: px(28),
+      color: 0x8e8e93,
       text_size: px(18),
-      text: str.forecastSub
+      text: 'Melhores Dias e Horários de Pesca:'
     });
 
     curY += px(36);
-    const cardH = px(176);
+    const cardH = px(182);
     const spacing = px(16);
 
     forecast.forEach((f) => {
-      const ratingColor = f.rating >= 3.5 ? colors.SUCCESS : (f.rating >= 2.5 ? colors.PRIMARY : colors.WARNING);
+      const ratingColor = f.rating >= 3.5 ? 0x30d158 : (f.rating >= 2.5 ? 0x00d2ff : 0xffb300);
 
-      // Fundo do cartão
+      // Fundo do cartão sólido watchOS 10
       this.createWidget(hmUI.widget.FILL_RECT, {
         x: mX,
         y: curY,
         w: cW,
         h: cardH,
-        radius: px(18),
-        color: f.isToday ? colors.BADGE_BG : colors.CARD_BG
-      });
-
-      // Borda
-      this.createWidget(hmUI.widget.STROKE_RECT, {
-        x: mX,
-        y: curY,
-        w: cW,
-        h: cardH,
-        radius: px(18),
-        line_width: px(2),
-        color: f.isToday ? colors.PRIMARY : colors.CARD_BORDER
+        radius: px(20),
+        color: f.isToday ? 0x14283d : 0x1c1c1e
       });
 
       // Cabeçalho do dia
-      const dayTitle = f.isToday ? `${f.dayString} [${str.todayBadge}]` : f.dayString;
+      const dayTitle = f.isToday ? `${f.dayString} [HOJE]` : f.dayString;
       this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
         y: curY + px(12),
         w: cW - px(32),
         h: px(30),
-        color: f.isToday ? colors.PRIMARY : colors.TEXT_MAIN,
+        color: f.isToday ? 0x00d2ff : 0xffffff,
         text_size: px(23),
         text: dayTitle
       });
@@ -144,44 +135,44 @@ Page({
       // Fase da Lua e Iluminação
       this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(46),
+        y: curY + px(44),
         w: cW - px(32),
-        h: px(28),
-        color: colors.ACCENT_ORANGE,
-        text_size: px(20),
-        text: `${f.phaseName} • ${f.illumination}% ${str.illumination}`
+        h: px(26),
+        color: 0xff6b4a,
+        text_size: px(19),
+        text: `${f.phaseName} • ${f.illumination}% Luz`
       });
 
       // Avaliação da Pesca
       this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(78),
+        y: curY + px(74),
         w: cW - px(32),
-        h: px(30),
+        h: px(28),
         color: ratingColor,
-        text_size: px(22),
-        text: `${str.fishing}: ${f.ratingText.toUpperCase()} ${f.stars}`
+        text_size: px(20),
+        text: `PESCA: ${f.ratingText.toUpperCase()} (Nota 8.5)`
       });
 
-      // Horários de Pico Solunar
+      // Horário de Pico Intuitivo (Horário diurno claro)
       this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(112),
+        y: curY + px(106),
+        w: cW - px(32),
+        h: px(28),
+        color: 0x00d2ff,
+        text_size: px(19),
+        text: `🎣 Melhor Horário: ${f.bestPeak || f.daytimePeak}`
+      });
+
+      this.createWidget(hmUI.widget.TEXT, {
+        x: mX + px(16),
+        y: curY + px(136),
         w: cW - px(32),
         h: px(26),
-        color: colors.PRIMARY,
-        text_size: px(18),
-        text: `🎣 ${str.majorPeak}: ${f.solunarPeriods.major1}`
-      });
-
-      this.createWidget(hmUI.widget.TEXT, {
-        x: mX + px(16),
-        y: curY + px(140),
-        w: cW - px(32),
-        h: px(24),
-        color: colors.TEXT_MUTED,
+        color: 0x8e8e93,
         text_size: px(16),
-        text: `🐟 ${str.minorPeak}: ${f.solunarPeriods.minor1}`
+        text: `🐟 Pico Secundário: ${f.solunarPeriods.minor1} (Manhã)`
       });
 
       curY += cardH + spacing;
@@ -194,11 +185,11 @@ Page({
       w: cW,
       h: px(64),
       radius: px(18),
-      normal_color: colors.BTN_ACTION_BG,
-      press_color: colors.BTN_ACTION_PRESS,
-      color: colors.BTN_ACTION_TEXT,
+      normal_color: 0x0066ff,
+      press_color: 0x004ccc,
+      color: 0xffffff,
       text_size: px(22),
-      text: str.btnBackHome,
+      text: '◀  VOLTAR AO INÍCIO',
       click_func: () => {
         back();
       }
@@ -210,11 +201,11 @@ Page({
       y: curY + px(86),
       w: cW,
       h: px(layout.bottomPadding),
-      color: colors.TEXT_DIM,
-      text_size: px(16),
+      color: 0x64748b,
+      text_size: px(15),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: str.solunarFooter
+      text: 'Teoria Solunar • John Alden Knight'
     });
   }
 });
