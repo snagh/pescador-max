@@ -16,6 +16,35 @@ import { getBarometerReading } from '../../utils/sensors.js';
 import { getAppLanguage, setAppLanguage, t } from '../../utils/i18n.js';
 import { getColors, getLayoutConfig } from '../../utils/constants.js';
 
+function feedback(msg) {
+  try {
+    const { showToast } = require('@zos/interaction');
+    if (showToast) {
+      showToast({ text: msg });
+    }
+  } catch (e) {
+    try {
+      if (hmUI && hmUI.showToast) {
+        hmUI.showToast({ text: msg });
+      }
+    } catch (err) {}
+  }
+
+  try {
+    const { Vibrator, VIBRATOR_SCENE_SHORT_LIGHT } = require('@zos/sensor');
+    if (Vibrator) {
+      const v = new Vibrator();
+      if (VIBRATOR_SCENE_SHORT_LIGHT) {
+        v.setMode(VIBRATOR_SCENE_SHORT_LIGHT);
+      }
+      v.start();
+      setTimeout(() => {
+        try { v.stop(); } catch (e) {}
+      }, 150);
+    }
+  } catch (e) {}
+}
+
 Page({
   state: {
     widgets: []
@@ -104,6 +133,7 @@ Page({
       click_func: () => {
         const nextLang = lang === 'pt' ? 'en' : 'pt';
         setAppLanguage(nextLang);
+        feedback(nextLang === 'pt' ? 'Idioma: Português' : 'Language: English');
         this.clearUI();
         this.renderUI();
       }
@@ -279,9 +309,9 @@ Page({
       y: curY + px(100),
       w: cW - px(148),
       h: px(22),
-      color: 0x30d158,
+      color: barometer.available ? 0x30d158 : 0x00d2ff,
       text_size: px(14),
-      text: 'Sensor Barométrico Ativo'
+      text: barometer.available ? 'Sensor Físico Ativo' : 'Padrão Nível do Mar'
     });
 
     curY += card2H + px(12);
@@ -306,6 +336,8 @@ Page({
       click_func: () => {
         const nextBasin = getNextBasinId(selectedBasin);
         setSelectedBasin(nextBasin);
+        const nextDefeso = getDefesoStatus(today, nextBasin, lang);
+        feedback(`Bacia: ${nextDefeso.shortName.toUpperCase()}\nStatus: ${nextDefeso.statusBadge}`);
         this.clearUI();
         this.renderUI();
       }
@@ -386,6 +418,11 @@ Page({
       text_size: px(18),
       text: '🔄  RECALIBRAR BARÔMETRO',
       click_func: () => {
+        const fresh = getBarometerReading(lang);
+        const feedbackText = fresh.available 
+          ? `Sensor Lido:\n${fresh.pressure} hPa (Hardware Ativo)`
+          : `Sensor Calibrado:\n${fresh.pressure} hPa (Nível do Mar)`;
+        feedback(feedbackText);
         this.clearUI();
         this.renderUI();
       }
