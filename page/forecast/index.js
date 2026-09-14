@@ -1,11 +1,12 @@
 /**
  * page/forecast/index.js - Previsão Solunar dos Próximos 7 Dias
+ * Totalmente responsivo para telas Retangulares e Redondas
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
 import { px } from '@zos/utils';
 import { getForecast } from '../../utils/lunar.js';
-import { COLORS } from '../../utils/constants.js';
+import { COLORS, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
   build() {
@@ -15,18 +16,23 @@ Page({
   renderUI() {
     const today = new Date();
     const forecast = getForecast(today, 7);
+    const layout = getLayoutConfig();
+
+    const mX = px(layout.marginX);
+    const cW = px(layout.cardW);
+    let curY = px(layout.topPadding);
 
     // Botão Voltar no Topo
     hmUI.createWidget(hmUI.widget.BUTTON, {
-      x: px(16),
-      y: px(16),
-      w: px(120),
+      x: mX,
+      y: curY,
+      w: px(110),
       h: px(46),
       radius: px(12),
       normal_color: COLORS.BTN_BG,
       press_color: COLORS.BTN_PRESS,
       color: COLORS.TEXT_MAIN,
-      text_size: px(19),
+      text_size: px(18),
       text: '◀ VOLTAR',
       click_func: () => {
         back();
@@ -35,40 +41,41 @@ Page({
 
     // Título da Página
     hmUI.createWidget(hmUI.widget.TEXT, {
-      x: px(146),
-      y: px(16),
-      w: px(270),
+      x: mX + px(120),
+      y: curY,
+      w: cW - px(120),
       h: px(46),
       color: COLORS.PRIMARY,
-      text_size: px(25),
+      text_size: px(23),
       align_v: hmUI.align.CENTER_V,
       text: 'PREVISÃO 7 DIAS'
     });
 
+    curY += px(52);
+
     // Subtítulo
     hmUI.createWidget(hmUI.widget.TEXT, {
-      x: px(16),
-      y: px(68),
-      w: px(400),
+      x: mX,
+      y: curY,
+      w: cW,
       h: px(26),
       color: COLORS.TEXT_MUTED,
       text_size: px(18),
-      text: 'Melhores dias e horários de pesca:'
+      text: 'Melhores dias e horários:'
     });
 
-    let currentY = px(104);
+    curY += px(36);
     const cardH = px(166);
     const spacing = px(14);
 
-    forecast.forEach((f, idx) => {
-      // Cor do cartão
+    forecast.forEach((f) => {
       const ratingColor = f.rating >= 3.5 ? COLORS.SUCCESS : (f.rating >= 2.5 ? COLORS.PRIMARY : COLORS.WARNING);
 
       // Fundo do cartão
       hmUI.createWidget(hmUI.widget.FILL_RECT, {
-        x: px(16),
-        y: currentY,
-        w: px(400),
+        x: mX,
+        y: curY,
+        w: cW,
         h: cardH,
         radius: px(16),
         color: f.isToday ? 0x162438 : COLORS.CARD_BG
@@ -76,9 +83,9 @@ Page({
 
       // Borda
       hmUI.createWidget(hmUI.widget.STROKE_RECT, {
-        x: px(16),
-        y: currentY,
-        w: px(400),
+        x: mX,
+        y: curY,
+        w: cW,
         h: cardH,
         radius: px(16),
         line_width: px(2),
@@ -88,9 +95,9 @@ Page({
       // Cabeçalho do dia
       const dayTitle = f.isToday ? `${f.dayString} [HOJE]` : f.dayString;
       hmUI.createWidget(hmUI.widget.TEXT, {
-        x: px(30),
-        y: currentY + px(12),
-        w: px(372),
+        x: mX + px(16),
+        y: curY + px(12),
+        w: cW - px(32),
         h: px(28),
         color: f.isToday ? COLORS.PRIMARY : COLORS.TEXT_MAIN,
         text_size: px(22),
@@ -99,9 +106,9 @@ Page({
 
       // Fase da Lua e Iluminação
       hmUI.createWidget(hmUI.widget.TEXT, {
-        x: px(30),
-        y: currentY + px(44),
-        w: px(372),
+        x: mX + px(16),
+        y: curY + px(44),
+        w: cW - px(32),
         h: px(26),
         color: COLORS.ACCENT_GOLD,
         text_size: px(20),
@@ -110,9 +117,9 @@ Page({
 
       // Avaliação da Pesca
       hmUI.createWidget(hmUI.widget.TEXT, {
-        x: px(30),
-        y: currentY + px(74),
-        w: px(372),
+        x: mX + px(16),
+        y: curY + px(74),
+        w: cW - px(32),
         h: px(28),
         color: ratingColor,
         text_size: px(21),
@@ -121,9 +128,9 @@ Page({
 
       // Horários de Pico Solunar
       hmUI.createWidget(hmUI.widget.TEXT, {
-        x: px(30),
-        y: currentY + px(106),
-        w: px(372),
+        x: mX + px(16),
+        y: curY + px(106),
+        w: cW - px(32),
         h: px(24),
         color: COLORS.TEXT_MUTED,
         text_size: px(17),
@@ -131,23 +138,23 @@ Page({
       });
 
       hmUI.createWidget(hmUI.widget.TEXT, {
-        x: px(30),
-        y: currentY + px(132),
-        w: px(372),
+        x: mX + px(16),
+        y: curY + px(132),
+        w: cW - px(32),
         h: px(24),
         color: COLORS.TEXT_DIM,
         text_size: px(16),
         text: `Pico Menor: ${f.solunarPeriods.minor1}`
       });
 
-      currentY += cardH + spacing;
+      curY += cardH + spacing;
     });
 
     // Botão Voltar no Rodapé
     hmUI.createWidget(hmUI.widget.BUTTON, {
-      x: px(16),
-      y: currentY + px(10),
-      w: px(400),
+      x: mX,
+      y: curY + px(10),
+      w: cW,
       h: px(58),
       radius: px(14),
       normal_color: COLORS.BTN_ACTION_BG,
@@ -162,10 +169,10 @@ Page({
 
     // Espaçador final
     hmUI.createWidget(hmUI.widget.TEXT, {
-      x: px(16),
-      y: currentY + px(80),
-      w: px(400),
-      h: px(40),
+      x: mX,
+      y: curY + px(78),
+      w: cW,
+      h: px(layout.bottomPadding),
       color: COLORS.TEXT_DIM,
       text_size: px(15),
       align_h: hmUI.align.CENTER_H,

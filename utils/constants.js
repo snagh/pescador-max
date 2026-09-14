@@ -1,6 +1,7 @@
 /**
  * constants.js - Paleta de Cores e Estilos para o Pescador Max
  * Otimizado para tela AMOLED de alta visibilidade ao ar livre
+ * e responsividade inteligente (telas quadradas vs redondas)
  */
 
 export const COLORS = {
@@ -21,3 +22,25 @@ export const COLORS = {
   BTN_ACTION_BG: 0x0284c7,
   BTN_ACTION_PRESS: 0x0369a1
 };
+
+/**
+ * Retorna configurações de layout adaptadas para relógios redondos e retangulares
+ */
+export function getLayoutConfig() {
+  let isRound = false;
+  try {
+    const { getDeviceInfo, SCREEN_SHAPE_ROUND } = require('@zos/device');
+    const info = getDeviceInfo();
+    isRound = info && info.screenShape === SCREEN_SHAPE_ROUND;
+  } catch (e) {}
+
+  // Em telas redondas (T-Rex, Balance, GTR 4), os cantos do círculo cortam os cantos.
+  // Por isso aplicamos margem de segurança maior nas telas redondas.
+  return {
+    isRound,
+    marginX: isRound ? 36 : 16,
+    cardW: isRound ? 360 : 400,
+    topPadding: isRound ? 46 : 24,
+    bottomPadding: isRound ? 70 : 40
+  };
+}
