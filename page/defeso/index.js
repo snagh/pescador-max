@@ -1,12 +1,12 @@
 /**
- * page/defeso/index.js - Períodos de Defeso e Regulamentação da Piracema
- * Totalmente responsivo para telas Retangulares e Redondas
+ * page/defeso/index.js - Períodos de Defeso e Regulamentação da Piracema (Bilingual)
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
 import { px } from '@zos/utils';
 import { BASINS, getDefesoStatus } from '../../utils/defeso.js';
 import { getSelectedBasin, setSelectedBasin } from '../../utils/storage.js';
+import { getAppLanguage, t } from '../../utils/i18n.js';
 import { COLORS, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
@@ -25,9 +25,11 @@ Page({
   },
 
   renderUI() {
+    const lang = getAppLanguage();
+    const str = t(lang);
     const today = new Date();
     const basin = BASINS[this.state.basinIndex];
-    const defeso = getDefesoStatus(today, basin.id);
+    const defeso = getDefesoStatus(today, basin.id, lang);
     const layout = getLayoutConfig();
 
     const mX = px(layout.marginX);
@@ -45,7 +47,7 @@ Page({
       press_color: COLORS.BTN_PRESS,
       color: COLORS.TEXT_MAIN,
       text_size: px(18),
-      text: '◀ VOLTAR',
+      text: str.btnBack,
       click_func: () => {
         back();
       }
@@ -59,7 +61,7 @@ Page({
       color: COLORS.PRIMARY,
       text_size: px(23),
       align_v: hmUI.align.CENTER_V,
-      text: 'DEFESO & REGRAS'
+      text: str.defesoTitle
     });
 
     curY += px(52);
@@ -72,7 +74,7 @@ Page({
       h: px(24),
       color: COLORS.TEXT_MUTED,
       text_size: px(17),
-      text: 'Toque para trocar de região / bacia:'
+      text: str.defesoTapChange
     });
 
     curY += px(28);
@@ -87,7 +89,7 @@ Page({
       press_color: COLORS.BTN_ACTION_PRESS,
       color: COLORS.TEXT_MAIN,
       text_size: px(20),
-      text: `🔄 ${basin.shortName} ▾`,
+      text: `🔄 ${defeso.shortName} ▾`,
       click_func: () => {
         this.state.basinIndex = (this.state.basinIndex + 1) % BASINS.length;
         setSelectedBasin(BASINS[this.state.basinIndex].id);
@@ -127,7 +129,7 @@ Page({
       h: px(26),
       color: COLORS.TEXT_MUTED,
       text_size: px(18),
-      text: 'STATUS ATUAL'
+      text: str.defesoCurrentStatus
     });
 
     hmUI.createWidget(hmUI.widget.TEXT, {
@@ -147,7 +149,7 @@ Page({
       h: px(26),
       color: COLORS.TEXT_MAIN,
       text_size: px(19),
-      text: `Período: ${defeso.periodString}`
+      text: `${str.defesoPeriod}: ${defeso.periodString}`
     });
 
     hmUI.createWidget(hmUI.widget.TEXT, {
@@ -182,7 +184,7 @@ Page({
       h: px(26),
       color: COLORS.ACCENT_GOLD,
       text_size: px(20),
-      text: '🐟 ESPÉCIES PROTEGIDAS'
+      text: str.defesoProtected
     });
 
     hmUI.createWidget(hmUI.widget.TEXT, {
@@ -217,7 +219,7 @@ Page({
       h: px(26),
       color: COLORS.SUCCESS,
       text_size: px(20),
-      text: '✔ O QUE É PERMITIDO'
+      text: str.defesoAllowed
     });
 
     hmUI.createWidget(hmUI.widget.TEXT, {
@@ -252,7 +254,7 @@ Page({
       h: px(26),
       color: COLORS.DANGER,
       text_size: px(20),
-      text: '✖ O QUE É PROIBIDO'
+      text: str.defesoProhibited
     });
 
     hmUI.createWidget(hmUI.widget.TEXT, {
@@ -279,7 +281,7 @@ Page({
       press_color: COLORS.BTN_PRESS,
       color: COLORS.TEXT_MAIN,
       text_size: px(22),
-      text: '◀ VOLTAR AO INÍCIO',
+      text: str.btnBackHome,
       click_func: () => {
         back();
       }
@@ -297,7 +299,7 @@ Page({
       text_size: px(15),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: 'Preserve a fauna aquática • IBAMA'
+      text: str.defesoFooter
     });
   }
 });

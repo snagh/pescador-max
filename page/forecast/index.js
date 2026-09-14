@@ -1,11 +1,11 @@
 /**
- * page/forecast/index.js - Previsão Solunar dos Próximos 7 Dias
- * Totalmente responsivo para telas Retangulares e Redondas
+ * page/forecast/index.js - Previsão Solunar dos Próximos 7 Dias (Bilingual)
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
 import { px } from '@zos/utils';
 import { getForecast } from '../../utils/lunar.js';
+import { getAppLanguage, t } from '../../utils/i18n.js';
 import { COLORS, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
@@ -14,8 +14,10 @@ Page({
   },
 
   renderUI() {
+    const lang = getAppLanguage();
+    const str = t(lang);
     const today = new Date();
-    const forecast = getForecast(today, 7);
+    const forecast = getForecast(today, 7, lang);
     const layout = getLayoutConfig();
 
     const mX = px(layout.marginX);
@@ -33,7 +35,7 @@ Page({
       press_color: COLORS.BTN_PRESS,
       color: COLORS.TEXT_MAIN,
       text_size: px(18),
-      text: '◀ VOLTAR',
+      text: str.btnBack,
       click_func: () => {
         back();
       }
@@ -48,7 +50,7 @@ Page({
       color: COLORS.PRIMARY,
       text_size: px(23),
       align_v: hmUI.align.CENTER_V,
-      text: 'PREVISÃO 7 DIAS'
+      text: str.forecastTitle
     });
 
     curY += px(52);
@@ -61,7 +63,7 @@ Page({
       h: px(26),
       color: COLORS.TEXT_MUTED,
       text_size: px(18),
-      text: 'Melhores dias e horários:'
+      text: str.forecastSub
     });
 
     curY += px(36);
@@ -93,7 +95,7 @@ Page({
       });
 
       // Cabeçalho do dia
-      const dayTitle = f.isToday ? `${f.dayString} [HOJE]` : f.dayString;
+      const dayTitle = f.isToday ? `${f.dayString} [${str.todayBadge}]` : f.dayString;
       hmUI.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
         y: curY + px(12),
@@ -112,7 +114,7 @@ Page({
         h: px(26),
         color: COLORS.ACCENT_GOLD,
         text_size: px(20),
-        text: `${f.phaseName} • ${f.illumination}% Ilum.`
+        text: `${f.phaseName} • ${f.illumination}% ${str.illumination}`
       });
 
       // Avaliação da Pesca
@@ -123,7 +125,7 @@ Page({
         h: px(28),
         color: ratingColor,
         text_size: px(21),
-        text: `Pesca: ${f.ratingText.toUpperCase()} ${f.stars}`
+        text: `${str.fishing}: ${f.ratingText.toUpperCase()} ${f.stars}`
       });
 
       // Horários de Pico Solunar
@@ -134,7 +136,7 @@ Page({
         h: px(24),
         color: COLORS.TEXT_MUTED,
         text_size: px(17),
-        text: `Pico Maior: ${f.solunarPeriods.major1}`
+        text: `${str.majorPeak}: ${f.solunarPeriods.major1}`
       });
 
       hmUI.createWidget(hmUI.widget.TEXT, {
@@ -144,7 +146,7 @@ Page({
         h: px(24),
         color: COLORS.TEXT_DIM,
         text_size: px(16),
-        text: `Pico Menor: ${f.solunarPeriods.minor1}`
+        text: `${str.minorPeak}: ${f.solunarPeriods.minor1}`
       });
 
       curY += cardH + spacing;
@@ -161,7 +163,7 @@ Page({
       press_color: COLORS.BTN_ACTION_PRESS,
       color: COLORS.TEXT_MAIN,
       text_size: px(22),
-      text: '◀ VOLTAR AO INÍCIO',
+      text: str.btnBackHome,
       click_func: () => {
         back();
       }
@@ -177,7 +179,7 @@ Page({
       text_size: px(15),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: 'Teoria Solunar • John Alden Knight'
+      text: str.solunarFooter
     });
   }
 });

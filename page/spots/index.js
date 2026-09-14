@@ -1,13 +1,13 @@
 /**
- * page/spots/index.js - Locais de Pesca, Waypoints com GPS e Guia de Iscas
- * Totalmente responsivo para telas Retangulares e Redondas
+ * page/spots/index.js - Locais de Pesca, Waypoints com GPS e Guia de Iscas (Bilingual)
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
 import { px } from '@zos/utils';
-import { SPOT_TYPES } from '../../utils/spots.js';
+import { getSpotTypes } from '../../utils/spots.js';
 import { getSavedSpots, addSpot, deleteSpot } from '../../utils/storage.js';
 import { getCurrentCoordinates } from '../../utils/sensors.js';
+import { getAppLanguage, t } from '../../utils/i18n.js';
 import { COLORS, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
@@ -24,7 +24,10 @@ Page({
   },
 
   renderUI() {
+    const lang = getAppLanguage();
+    const str = t(lang);
     this.state.spots = getSavedSpots();
+    const spotTypes = getSpotTypes(lang);
     const layout = getLayoutConfig();
 
     const mX = px(layout.marginX);
@@ -42,7 +45,7 @@ Page({
       press_color: COLORS.BTN_PRESS,
       color: COLORS.TEXT_MAIN,
       text_size: px(18),
-      text: '◀ VOLTAR',
+      text: str.btnBack,
       click_func: () => {
         back();
       }
@@ -56,7 +59,7 @@ Page({
       color: COLORS.PRIMARY,
       text_size: px(23),
       align_v: hmUI.align.CENTER_V,
-      text: 'LOCAIS & PONTOS'
+      text: str.spotsTitle
     });
 
     curY += px(56);
@@ -72,19 +75,21 @@ Page({
       press_color: 0x059669,
       color: COLORS.TEXT_MAIN,
       text_size: px(22),
-      text: '📍 + MARCAR PONTO GPS',
+      text: str.spotsMarkBtn,
       click_func: () => {
         const now = new Date();
         const timeStr = `${now.getHours() < 10 ? '0' : ''}${now.getHours()}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()}`;
         const count = this.state.spots.length + 1;
-        const coords = getCurrentCoordinates();
+        const coords = getCurrentCoordinates(lang);
 
         addSpot({
-          name: `Ponto Marcado #${count}`,
-          type: 'Waypoint Salvo',
-          time: `Salvo às ${timeStr}`,
+          name: lang === 'en' ? `Marked Spot #${count}` : `Ponto Marcado #${count}`,
+          type: lang === 'en' ? 'Saved Waypoint' : 'Waypoint Salvo',
+          time: lang === 'en' ? `Saved at ${timeStr}` : `Salvo às ${timeStr}`,
           coords: coords.string,
-          notes: coords.available ? 'Coordenadas GPS registradas' : 'Ponto salvo com timestamp'
+          notes: coords.available 
+            ? (lang === 'en' ? 'GPS coordinates locked' : 'Coordenadas GPS registradas')
+            : (lang === 'en' ? 'Saved with time tag' : 'Ponto salvo com timestamp')
         });
 
         this.state.spots = getSavedSpots();
@@ -102,7 +107,7 @@ Page({
       h: px(28),
       color: COLORS.ACCENT_GOLD,
       text_size: px(21),
-      text: `MEUS WAYPOINTS (${this.state.spots.length})`
+      text: `${str.spotsMyWaypoints} (${this.state.spots.length})`
     });
 
     curY += px(34);
@@ -129,7 +134,6 @@ Page({
         color: COLORS.CARD_BORDER
       });
 
-      // Largura da coluna de texto e do botão
       const btnExcluirW = px(96);
       const textColW = cW - btnExcluirW - px(28);
 
@@ -178,7 +182,7 @@ Page({
         press_color: 0x5c1d1d,
         color: COLORS.DANGER,
         text_size: px(16),
-        text: 'EXCLUIR',
+        text: str.spotsDelete,
         click_func: () => {
           deleteSpot(spot.id);
           this.state.spots = getSavedSpots();
@@ -199,13 +203,13 @@ Page({
       h: px(30),
       color: COLORS.PRIMARY,
       text_size: px(23),
-      text: 'GUIA DE ISCAS POR LOCAL'
+      text: str.spotsGuideTitle
     });
 
     curY += px(38);
     const guideCardH = px(154);
 
-    SPOT_TYPES.forEach((guide) => {
+    spotTypes.forEach((guide) => {
       hmUI.createWidget(hmUI.widget.FILL_RECT, {
         x: mX,
         y: curY,
@@ -232,7 +236,7 @@ Page({
         h: px(24),
         color: COLORS.TEXT_MAIN,
         text_size: px(16),
-        text: `Peixes: ${guide.species}`
+        text: `${lang === 'en' ? 'Target' : 'Peixes'}: ${guide.species}`
       });
 
       hmUI.createWidget(hmUI.widget.TEXT, {
@@ -243,7 +247,7 @@ Page({
         color: COLORS.PRIMARY,
         text_size: px(15),
         text_style: hmUI.text_style.WRAP,
-        text: `Iscas: ${guide.baits}`
+        text: `${lang === 'en' ? 'Baits' : 'Iscas'}: ${guide.baits}`
       });
 
       hmUI.createWidget(hmUI.widget.TEXT, {
@@ -254,7 +258,7 @@ Page({
         color: COLORS.TEXT_MUTED,
         text_size: px(14),
         text_style: hmUI.text_style.WRAP,
-        text: `Dica: ${guide.tips}`
+        text: `${lang === 'en' ? 'Tip' : 'Dica'}: ${guide.tips}`
       });
 
       curY += guideCardH + spacing;
@@ -271,7 +275,7 @@ Page({
       press_color: COLORS.BTN_ACTION_PRESS,
       color: COLORS.TEXT_MAIN,
       text_size: px(22),
-      text: '◀ VOLTAR AO INÍCIO',
+      text: str.btnBackHome,
       click_func: () => {
         back();
       }
@@ -289,7 +293,7 @@ Page({
       text_size: px(15),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: 'Boas Pescarias! • Pescador Max'
+      text: str.spotsFooter
     });
   }
 });

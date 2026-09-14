@@ -1,96 +1,116 @@
 /**
  * defeso.js - Calendário e Regras de Defeso (Piracema) no Brasil
- * Fornece status em tempo real por bacia hidrográfica e recomendações
+ * Fornece status em tempo real por bacia hidrográfica (Bilingual pt-BR / en-US)
  */
 
 export const BASINS = [
   {
     id: 'parana',
     name: 'Bacia do Rio Paraná / Sudeste / Sul',
+    nameEn: 'Paraná / Southeast Basin (Brazil)',
     shortName: 'Paraná / Sudeste',
+    shortNameEn: 'Paraná / Southeast',
     rivers: 'Rios Paraná, Tietê, Paranapanema, Grande, Pardo, Iguaçu',
-    startMonth: 11, // Novembro (1-indexed)
+    riversEn: 'Paraná, Tietê, Paranapanema, Grande, Pardo and Iguaçu rivers',
+    startMonth: 11,
     startDay: 1,
-    endMonth: 2,    // Fevereiro
+    endMonth: 2,
     endDay: 28,
     protectedSpecies: 'Dourado, Pintado, Jaú, Curimbatá, Piapara, Pacu, Piracanjuba',
+    protectedSpeciesEn: 'Golden Dorado, Spotted Sorubim, Jau, Curimbata, Piapara, Pacu',
     exemptions: 'Pesque-e-solte permitido em reservatórios com espécies exóticas/alóctones (Tucunaré, Tilápia, Corvina, Black Bass) com anzol sem fisga.',
-    prohibitions: 'Uso de redes, tarrafas, espinhéis, cevas e pesca a menos de 1500m de barragens e corredeiras.'
+    exemptionsEn: 'Catch-and-release allowed in man-made reservoirs for non-native species (Peacock Bass, Tilapia, Bass) with barbless hooks.',
+    prohibitions: 'Uso de redes, tarrafas, espinhéis, cevas e pesca a menos de 1500m de barragens e corredeiras.',
+    prohibitionsEn: 'Nets, cast nets, trotlines and fishing within 1500m of dams and rapids are strictly prohibited.'
   },
   {
     id: 'pantanal',
     name: 'Bacia do Rio Paraguai (Pantanal)',
+    nameEn: 'Paraguay River / Pantanal Basin',
     shortName: 'Paraguai / Pantanal',
+    shortNameEn: 'Paraguay / Pantanal',
     rivers: 'Rios Paraguai, Cuiabá, Taquari, Miranda, Aquidauana',
-    startMonth: 11, // 01 de Novembro
+    riversEn: 'Paraguay, Cuiabá, Taquari, Miranda and Aquidauana rivers',
+    startMonth: 11,
     startDay: 1,
-    endMonth: 1,    // 31 de Janeiro (com pesque-e-solte regulamentado em fev)
+    endMonth: 1,
     endDay: 31,
-    protectedSpecies: 'Pintado, Cachara, Pacu, Dourado (proibido captura e abate em MS), Piraputanga, Jaú',
+    protectedSpecies: 'Pintado, Cachara, Pacu, Dourado, Piraputanga, Jaú',
+    protectedSpeciesEn: 'Spotted Sorubim, Barred Sorubim, Pacu, Golden Dorado, Piraputanga',
     exemptions: 'A partir de 1º de fevereiro geralmente é permitida a modalidade Pesque-e-Solte em determinados trechos navegáveis (Portaria Estadual).',
-    prohibitions: 'Fechamento total nos rios pantaneiros. Proibido transporte de peixes nativos.'
+    exemptionsEn: 'From Feb 1st, sport catch-and-release is permitted in designated navigable river stretches.',
+    prohibitions: 'Fechamento total nos rios pantaneiros. Proibido transporte de peixes nativos.',
+    prohibitionsEn: 'Total closure on Pantanal rivers. Native fish harvesting and transport banned.'
   },
   {
     id: 'sao_francisco',
     name: 'Bacia do Rio São Francisco',
+    nameEn: 'São Francisco River Basin',
     shortName: 'São Francisco',
+    shortNameEn: 'São Francisco',
     rivers: 'Rio São Francisco e afluentes (Velhas, Paracatu, Abaeté)',
+    riversEn: 'São Francisco River and main tributaries (Velhas, Paracatu, Abaeté)',
     startMonth: 11,
     startDay: 1,
     endMonth: 2,
     endDay: 28,
     protectedSpecies: 'Surubim, Dourado, Matrinxã, Mandi, Curimatá, Pacu',
+    protectedSpeciesEn: 'Surubim Catfish, Dorado, Matrinxa, Mandi, Curimata, Pacu',
     exemptions: 'Pesca de subsistência desembarcada e reservatórios autorizados.',
-    prohibitions: 'Pesca embarcada e apetrechos predatórios totalmente vedados.'
+    exemptionsEn: 'Shoreline subsistence fishing and authorized impoundments.',
+    prohibitions: 'Pesca embarcada e apetrechos predatórios totalmente vedados.',
+    prohibitionsEn: 'Boat fishing and commercial gear completely prohibited.'
   },
   {
     id: 'amazonica',
     name: 'Bacia Amazônica / Norte',
+    nameEn: 'Amazon / Northern Basin',
     shortName: 'Amazônica / Norte',
+    shortNameEn: 'Amazon / North',
     rivers: 'Rios Amazonas, Negro, Solimões, Madeira, Tapajós, Xingu',
+    riversEn: 'Amazon, Negro, Solimões, Madeira, Tapajós and Xingu rivers',
     startMonth: 11,
     startDay: 15,
     endMonth: 3,
     endDay: 15,
     protectedSpecies: 'Tambaqui, Pirarucu, Surubim, Caparari, Jaraqui, Matrinxã, Aruanã',
+    protectedSpeciesEn: 'Tambaqui, Arapaima (Pirarucu), Surubim, Caparari, Jaraqui, Arowana',
     exemptions: 'Pesca de subsistência e comunidades de manejo sustentável autorizadas pelo IBAMA/ICMBio.',
-    prohibitions: 'Comercialização sem declaração de estoque e captura em lagoas marginais.'
+    exemptionsEn: 'Subsistence fishing and approved sustainable reserve quotas.',
+    prohibitions: 'Comercialização sem declaração de estoque e captura em lagoas marginais.',
+    prohibitionsEn: 'Commercial trade without stock declaration and floodplain harvesting.'
   },
   {
     id: 'maritimo',
     name: 'Litoral & Marinho (Espécies Protegidas)',
+    nameEn: 'Coastal & Marine Protected Species',
     shortName: 'Mar & Estuários',
+    shortNameEn: 'Marine & Estuary',
     rivers: 'Manguezais, baías costeiras e mar aberto',
-    startMonth: 5,  // Robalo: 15/Mai a 31/Jul (Sudeste/Sul)
+    riversEn: 'Mangroves, coastal bays and open ocean waters',
+    startMonth: 5,
     startDay: 15,
     endMonth: 7,
     endDay: 31,
-    protectedSpecies: 'Robalo-Flecha e Peva (maio a jul), Camarão-Rosa/Sete-Barbas (jan a abr), Caranguejo-Uçá (período de andada)',
+    protectedSpecies: 'Robalo-Flecha e Peva, Camarão-Rosa/Sete-Barbas, Caranguejo-Uçá',
+    protectedSpeciesEn: 'Common Snook, Fat Snook, Pink Shrimp, Mangrove Ghost Crab',
     exemptions: 'Pesca esportiva com devolução imediata do peixe vivo.',
-    prohibitions: 'Redes de arrasto costeiras e captura de fêmeas ovadas.'
+    exemptionsEn: 'Sport catch-and-release with immediate live fish release.',
+    prohibitions: 'Redes de arrasto costeiras e captura de fêmeas ovadas.',
+    prohibitionsEn: 'Coastal bottom trawling and catching egg-bearing females.'
   }
 ];
 
-/**
- * Verifica se uma data específica está dentro do período de defeso da bacia
- */
 export function isDateInDefeso(date, basin) {
-  const month = date.getMonth() + 1; // 1 - 12
+  const month = date.getMonth() + 1;
   const day = date.getDate();
-
   const { startMonth, startDay, endMonth, endDay } = basin;
 
   if (startMonth > endMonth) {
-    // Período cruza a virada de ano (ex: Nov a Fev)
-    if (month > startMonth || (month === startMonth && day >= startDay)) {
-      return true;
-    }
-    if (month < endMonth || (month === endMonth && day <= endDay)) {
-      return true;
-    }
+    if (month > startMonth || (month === startMonth && day >= startDay)) return true;
+    if (month < endMonth || (month === endMonth && day <= endDay)) return true;
     return false;
   } else {
-    // Período no mesmo ano (ex: Maio a Julho)
     if (month > startMonth && month < endMonth) return true;
     if (month === startMonth && day >= startDay) return true;
     if (month === endMonth && day <= endDay) return true;
@@ -98,26 +118,26 @@ export function isDateInDefeso(date, basin) {
   }
 }
 
-/**
- * Obtém o status do defeso para a bacia selecionada
- */
-export function getDefesoStatus(date = new Date(), basinId = 'parana') {
+export function getDefesoStatus(date = new Date(), basinId = 'parana', lang = 'pt') {
+  const isEn = lang === 'en';
   const basin = BASINS.find(b => b.id === basinId) || BASINS[0];
   const active = isDateInDefeso(date, basin);
 
-  const formatPeriod = `${basin.startDay < 10 ? '0' : ''}${basin.startDay}/${basin.startMonth < 10 ? '0' : ''}${basin.startMonth} até ${basin.endDay < 10 ? '0' : ''}${basin.endDay}/${basin.endMonth < 10 ? '0' : ''}${basin.endMonth}`;
+  const startStr = `${basin.startDay < 10 ? '0' : ''}${basin.startDay}/${basin.startMonth < 10 ? '0' : ''}${basin.startMonth}`;
+  const endStr = `${basin.endDay < 10 ? '0' : ''}${basin.endDay}/${basin.endMonth < 10 ? '0' : ''}${basin.endMonth}`;
+  const formatPeriod = isEn ? `${startStr} to ${endStr}` : `${startStr} até ${endStr}`;
 
   return {
     basinId: basin.id,
-    basinName: basin.name,
-    shortName: basin.shortName,
-    rivers: basin.rivers,
+    basinName: isEn ? basin.nameEn : basin.name,
+    shortName: isEn ? basin.shortNameEn : basin.shortName,
+    rivers: isEn ? basin.riversEn : basin.rivers,
     isDefeso: active,
-    statusText: active ? 'PERÍODO DE DEFESO ATIVO' : 'PESCA LIBERADA',
-    statusBadge: active ? 'DEFESO' : 'LIBERADO',
+    statusText: active ? (isEn ? 'CLOSED SEASON ACTIVE' : 'PERÍODO DE DEFESO ATIVO') : (isEn ? 'FISHING SEASON OPEN' : 'PESCA LIBERADA'),
+    statusBadge: active ? (isEn ? 'CLOSED' : 'DEFESO') : (isEn ? 'OPEN' : 'LIBERADO'),
     periodString: formatPeriod,
-    protectedSpecies: basin.protectedSpecies,
-    exemptions: basin.exemptions,
-    prohibitions: basin.prohibitions
+    protectedSpecies: isEn ? basin.protectedSpeciesEn : basin.protectedSpecies,
+    exemptions: isEn ? basin.exemptionsEn : basin.exemptions,
+    prohibitions: isEn ? basin.prohibitionsEn : basin.prohibitions
   };
 }

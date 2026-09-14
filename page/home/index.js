@@ -1,7 +1,7 @@
 /**
  * page/home/index.js - Dashboard Principal do Pescador Max
  * Fases da Lua, Teoria Solunar, Barômetro em Tempo Real e Defeso
- * Totalmente responsivo para telas Retangulares (Bip/Active) e Redondas (T-Rex/Balance)
+ * Totalmente bilíngue (Português / English) e responsivo (Square / Round)
  */
 import * as hmUI from '@zos/ui';
 import { push } from '@zos/router';
@@ -10,6 +10,7 @@ import { getMoonDetails } from '../../utils/lunar.js';
 import { getDefesoStatus } from '../../utils/defeso.js';
 import { getSelectedBasin } from '../../utils/storage.js';
 import { getBarometerReading } from '../../utils/sensors.js';
+import { getAppLanguage, setAppLanguage, t } from '../../utils/i18n.js';
 import { COLORS, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
@@ -18,50 +19,75 @@ Page({
   },
 
   renderUI() {
+    const lang = getAppLanguage();
+    const str = t(lang);
     const today = new Date();
-    const moon = getMoonDetails(today);
+    const moon = getMoonDetails(today, lang);
     const selectedBasin = getSelectedBasin();
-    const defeso = getDefesoStatus(today, selectedBasin);
-    const barometer = getBarometerReading();
+    const defeso = getDefesoStatus(today, selectedBasin, lang);
+    const barometer = getBarometerReading(lang);
     const layout = getLayoutConfig();
 
-    const weekDays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-    const dateStr = `${weekDays[today.getDay()]}, ${today.getDate()} de ${months[today.getMonth()]}`;
+    const weekDay = str.weekDays[today.getDay()];
+    const monthStr = str.months[today.getMonth()];
+    const dateStr = lang === 'en' 
+      ? `${weekDay}, ${monthStr} ${today.getDate()}`
+      : `${weekDay}, ${today.getDate()} de ${monthStr}`;
 
     const mX = px(layout.marginX);
     const cW = px(layout.cardW);
     let curY = px(layout.topPadding);
 
-    // 1. TÍTULO PRINCIPAL
+    // 1. TÍTULO PRINCIPAL & BOTÃO DE IDIOMA
     hmUI.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
       h: px(38),
       color: COLORS.PRIMARY,
-      text_size: px(30),
+      text_size: px(28),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: 'PESCADOR MAX 🎣'
+      text: str.appTitle
     });
 
-    curY += px(40);
+    curY += px(38);
 
     // Subtítulo: Data atual
     hmUI.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
-      h: px(30),
+      h: px(28),
       color: COLORS.TEXT_MUTED,
-      text_size: px(21),
+      text_size: px(19),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
       text: dateStr
     });
 
-    curY += px(40);
+    curY += px(34);
+
+    // Seletor Rápido de Idioma [ 🇧🇷 PT / 🇺🇸 EN ]
+    hmUI.createWidget(hmUI.widget.BUTTON, {
+      x: mX + px(layout.isRound ? 50 : 70),
+      y: curY,
+      w: cW - px(layout.isRound ? 100 : 140),
+      h: px(36),
+      radius: px(10),
+      normal_color: 0x1e293b,
+      press_color: 0x334155,
+      color: COLORS.ACCENT_GOLD,
+      text_size: px(16),
+      text: str.langToggle,
+      click_func: () => {
+        const nextLang = lang === 'pt' ? 'en' : 'pt';
+        setAppLanguage(nextLang);
+        hmUI.redraw();
+      }
+    });
+
+    curY += px(46);
 
     // 2. CARTÃO LUNAR & SOLUNAR
     const card1H = px(226);
@@ -92,7 +118,7 @@ Page({
       w: cW - px(20),
       h: px(36),
       color: COLORS.TEXT_MAIN,
-      text_size: px(28),
+      text_size: px(27),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
       text: `${moon.phaseName.toUpperCase()}`
@@ -105,10 +131,10 @@ Page({
       w: cW - px(20),
       h: px(28),
       color: COLORS.ACCENT_GOLD,
-      text_size: px(21),
+      text_size: px(20),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: `Iluminação: ${moon.illumination}%  •  Idade: ${moon.age}d`
+      text: `${str.illumination}: ${moon.illumination}%  •  ${str.age}: ${moon.age}d`
     });
 
     // Nota da Pescaria (Avaliação Solunar)
@@ -119,10 +145,10 @@ Page({
       w: cW - px(20),
       h: px(32),
       color: ratingColor,
-      text_size: px(24),
+      text_size: px(23),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: `PESCA: ${moon.ratingText.toUpperCase()} ${moon.stars}`
+      text: `${str.fishing}: ${moon.ratingText.toUpperCase()} ${moon.stars}`
     });
 
     // Dica da Fase
@@ -132,7 +158,7 @@ Page({
       w: cW - px(32),
       h: px(44),
       color: COLORS.TEXT_MUTED,
-      text_size: px(18),
+      text_size: px(17),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
       text_style: hmUI.text_style.WRAP,
@@ -146,10 +172,10 @@ Page({
       w: cW - px(20),
       h: px(28),
       color: COLORS.PRIMARY,
-      text_size: px(19),
+      text_size: px(18),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: `Pico Maior: ${moon.solunarPeriods.major1}`
+      text: `${str.majorPeak}: ${moon.solunarPeriods.major1}`
     });
 
     curY += card1H + px(14);
@@ -182,8 +208,8 @@ Page({
       w: cW - px(32),
       h: px(24),
       color: COLORS.TEXT_MUTED,
-      text_size: px(18),
-      text: 'BARÔMETRO & PRESSÃO'
+      text_size: px(17),
+      text: str.baroTitle
     });
 
     hmUI.createWidget(hmUI.widget.TEXT, {
@@ -192,7 +218,7 @@ Page({
       w: cW - px(32),
       h: px(30),
       color: barometer.color,
-      text_size: px(22),
+      text_size: px(21),
       text: `🧭 ${barometer.status} • ${barometer.trend}`
     });
 
@@ -202,7 +228,7 @@ Page({
       w: cW - px(32),
       h: px(28),
       color: COLORS.TEXT_MAIN,
-      text_size: px(18),
+      text_size: px(17),
       text: barometer.fishActivity
     });
 
@@ -212,13 +238,13 @@ Page({
       w: cW - px(32),
       h: px(30),
       color: COLORS.TEXT_MUTED,
-      text_size: px(16),
-      text: `Dica: ${barometer.recommendation}`
+      text_size: px(15),
+      text: barometer.recommendation
     });
 
     curY += cardBaroH + px(14);
 
-    // 4. CARTÃO DE STATUS DO DEFESO / PIRACEMA
+    // 4. CARTÃO DE STATUS DO DEFESO
     const card2H = px(116);
     const defesoColor = defeso.isDefeso ? COLORS.DANGER : COLORS.SUCCESS;
 
@@ -247,8 +273,8 @@ Page({
       w: cW - px(32),
       h: px(24),
       color: COLORS.TEXT_MUTED,
-      text_size: px(18),
-      text: 'DEFESO & PIRACEMA'
+      text_size: px(17),
+      text: str.defesoTitle
     });
 
     hmUI.createWidget(hmUI.widget.TEXT, {
@@ -257,7 +283,7 @@ Page({
       w: cW - px(32),
       h: px(32),
       color: defesoColor,
-      text_size: px(24),
+      text_size: px(23),
       text: `[ ${defeso.statusBadge}: ${defeso.statusText} ]`
     });
 
@@ -267,8 +293,8 @@ Page({
       w: cW - px(32),
       h: px(24),
       color: COLORS.TEXT_DIM,
-      text_size: px(18),
-      text: `${defeso.shortName} (Toque p/ detalhes)`
+      text_size: px(17),
+      text: `${defeso.shortName} ${str.defesoTapDetails}`
     });
 
     curY += card2H + px(14);
@@ -287,8 +313,8 @@ Page({
       normal_color: COLORS.BTN_ACTION_BG,
       press_color: COLORS.BTN_ACTION_PRESS,
       color: COLORS.TEXT_MAIN,
-      text_size: px(23),
-      text: '🌙  PREVISÃO 7 DIAS',
+      text_size: px(22),
+      text: str.btnForecast,
       click_func: () => {
         push({ url: 'page/forecast/index' });
       }
@@ -296,7 +322,7 @@ Page({
 
     curY += btnH + px(12);
 
-    // Botão 2: Defeso & Piracema
+    // Botão 2: Defeso
     hmUI.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
@@ -306,8 +332,8 @@ Page({
       normal_color: COLORS.BTN_BG,
       press_color: COLORS.BTN_PRESS,
       color: COLORS.TEXT_MAIN,
-      text_size: px(23),
-      text: '🚫  DEFESO & REGRAS',
+      text_size: px(22),
+      text: str.btnDefeso,
       click_func: () => {
         push({ url: 'page/defeso/index' });
       }
@@ -315,7 +341,7 @@ Page({
 
     curY += btnH + px(12);
 
-    // Botão 3: Pontos & Iscas
+    // Botão 3: Pontos
     hmUI.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
@@ -325,8 +351,8 @@ Page({
       normal_color: COLORS.BTN_BG,
       press_color: COLORS.BTN_PRESS,
       color: COLORS.TEXT_MAIN,
-      text_size: px(23),
-      text: '📍  PONTOS & ISCAS',
+      text_size: px(22),
+      text: str.btnSpots,
       click_func: () => {
         push({ url: 'page/spots/index' });
       }
@@ -344,8 +370,8 @@ Page({
       normal_color: 0x162438,
       press_color: 0x223654,
       color: COLORS.PRIMARY,
-      text_size: px(20),
-      text: '🔄  ATUALIZAR SENSORES',
+      text_size: px(19),
+      text: str.btnRefresh,
       click_func: () => {
         hmUI.redraw();
       }
@@ -353,17 +379,17 @@ Page({
 
     curY += px(66);
 
-    // Espaçador inferior seguro para o final da rolagem
+    // Espaçador inferior
     hmUI.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
       h: px(layout.bottomPadding),
       color: COLORS.TEXT_DIM,
-      text_size: px(16),
+      text_size: px(15),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
-      text: 'Pescador Max • Zepp OS'
+      text: 'Angler Max / Pescador Max • Zepp OS'
     });
   }
 });

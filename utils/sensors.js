@@ -1,68 +1,53 @@
 /**
  * sensors.js - Integração com Barômetro, GPS e Bússola do Zepp OS
- * Interpretador de pressão atmosférica e tendências de pesca
+ * Interpretador de pressão atmosférica e tendências de pesca (Bilingual pt-BR / en-US)
  */
+import { t } from './i18n.js';
 
-/**
- * Interpreta o valor barométrico (em hPa) para a pesca
- */
-export function interpretBarometer(pressureHpa) {
-  if (!pressureHpa || pressureHpa <= 0) {
-    return {
-      hpa: 1013,
-      status: 'Normal (1013 hPa)',
-      trend: 'Estável',
-      fishActivity: 'Atividade normal dos peixes',
-      recommendation: 'Pesca em meia-água e fundo.',
-      color: 0x38bdf8
-    };
-  }
-
-  const hpa = Math.round(pressureHpa);
+export function interpretBarometer(pressureHpa, lang = 'pt') {
+  const strings = t(lang);
+  const hpa = Math.round(pressureHpa && pressureHpa > 0 ? pressureHpa : 1013);
 
   if (hpa >= 1016) {
     return {
       hpa,
-      status: `Alta (${hpa} hPa)`,
-      trend: 'Tempo Firme',
-      fishActivity: 'Excelente! Peixes ativos e caçando.',
-      recommendation: 'Use iscas de superfície e meia-água.',
+      status: `${strings.baroHigh} (${hpa} hPa)`,
+      trend: strings.trendHigh,
+      fishActivity: strings.descHigh,
+      recommendation: strings.tipHigh,
       color: 0x10b981
     };
   } else if (hpa >= 1010) {
     return {
       hpa,
-      status: `Estável (${hpa} hPa)`,
-      trend: 'Pressão Normal',
-      fishActivity: 'Boa atividade alimentar dos peixes.',
-      recommendation: 'Iscas de meia-água e fundo.',
+      status: `${strings.baroStable} (${hpa} hPa)`,
+      trend: strings.trendStable,
+      fishActivity: strings.descStable,
+      recommendation: strings.tipStable,
       color: 0x38bdf8
     };
   } else if (hpa >= 1005) {
     return {
       hpa,
-      status: `Baixa (${hpa} hPa)`,
-      trend: 'Queda de Pressão',
-      fishActivity: 'Atenção: Frente fria ou chuva.',
-      recommendation: 'Peixes atacam antes da chuva; diminua a isca.',
+      status: `${strings.baroLow} (${hpa} hPa)`,
+      trend: strings.trendLow,
+      fishActivity: strings.descLow,
+      recommendation: strings.tipLow,
       color: 0xf59e0b
     };
   } else {
     return {
       hpa,
-      status: `Muito Baixa (${hpa} hPa)`,
-      trend: 'Frente Fria / Tempestade',
-      fishActivity: 'Peixes inativos no fundo das represas/rios.',
-      recommendation: 'Pesca de espera com isca viva ou massa no fundo.',
+      status: `${strings.baroVeryLow} (${hpa} hPa)`,
+      trend: strings.trendVeryLow,
+      fishActivity: strings.descVeryLow,
+      recommendation: strings.tipVeryLow,
       color: 0xef4444
     };
   }
 }
 
-/**
- * Lê o sensor de Barômetro com segurança
- */
-export function getBarometerReading() {
+export function getBarometerReading(lang = 'pt') {
   try {
     const { Barometer } = require('@zos/sensor');
     if (Barometer) {
@@ -74,7 +59,7 @@ export function getBarometerReading() {
           available: true,
           hpa: Math.round(hpa),
           altitude: Math.round(altitude || 0),
-          ...interpretBarometer(hpa)
+          ...interpretBarometer(hpa, lang)
         };
       }
     }
@@ -84,14 +69,12 @@ export function getBarometerReading() {
     available: false,
     hpa: 1013,
     altitude: 0,
-    ...interpretBarometer(1013)
+    ...interpretBarometer(1013, lang)
   };
 }
 
-/**
- * Obtém coordenadas GPS atuais para waypoints
- */
-export function getCurrentCoordinates() {
+export function getCurrentCoordinates(lang = 'pt') {
+  const isEn = lang === 'en';
   try {
     const { Geolocation } = require('@zos/sensor');
     if (Geolocation) {
@@ -117,6 +100,6 @@ export function getCurrentCoordinates() {
 
   return {
     available: false,
-    string: 'Marcado no Relógio'
+    string: isEn ? 'Watch Tagged Location' : 'Marcado no Relógio'
   };
 }
