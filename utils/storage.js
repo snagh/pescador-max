@@ -1,6 +1,6 @@
 /**
  * storage.js - Persistência Segura para Zepp OS
- * Gerencia preferências de bacia e lista de pontos salvos pelo pescador
+ * Gerencia preferências de bacia, lista de pontos e tema (Dark / Light)
  */
 import { DEFAULT_SPOTS } from './spots.js';
 
@@ -10,9 +10,7 @@ try {
   if (mod && mod.localStorage) {
     zosLocalStorage = mod.localStorage;
   }
-} catch (e) {
-  // Executando fora do dispositivo ou ambiente de teste
-}
+} catch (e) {}
 
 const memoryStore = {};
 
@@ -34,6 +32,14 @@ export function setItem(key, value) {
     }
   } catch (e) {}
   memoryStore[key] = value;
+}
+
+export function getUserTheme() {
+  return getItem('user_theme', 'dark');
+}
+
+export function setUserTheme(theme) {
+  setItem('user_theme', theme === 'light' ? 'light' : 'dark');
 }
 
 export function getSavedSpots() {

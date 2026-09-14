@@ -5,9 +5,9 @@ import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
 import { px } from '@zos/utils';
 import { BASINS, getDefesoStatus } from '../../utils/defeso.js';
-import { getSelectedBasin, setSelectedBasin } from '../../utils/storage.js';
+import { getSelectedBasin, setSelectedBasin, getUserTheme } from '../../utils/storage.js';
 import { getAppLanguage, t } from '../../utils/i18n.js';
-import { COLORS, getLayoutConfig } from '../../utils/constants.js';
+import { getColors, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
   state: {
@@ -27,6 +27,8 @@ Page({
   renderUI() {
     const lang = getAppLanguage();
     const str = t(lang);
+    const theme = getUserTheme();
+    const colors = getColors(theme);
     const today = new Date();
     const basin = BASINS[this.state.basinIndex];
     const defeso = getDefesoStatus(today, basin.id, lang);
@@ -36,6 +38,16 @@ Page({
     const cW = px(layout.cardW);
     let curY = px(layout.topPadding);
 
+    if (colors.isLight) {
+      hmUI.createWidget(hmUI.widget.FILL_RECT, {
+        x: px(0),
+        y: px(0),
+        w: px(480),
+        h: px(1600),
+        color: colors.BG
+      });
+    }
+
     // 1. Topo: Botão Voltar + Título
     hmUI.createWidget(hmUI.widget.BUTTON, {
       x: mX,
@@ -43,9 +55,9 @@ Page({
       w: px(110),
       h: px(46),
       radius: px(12),
-      normal_color: COLORS.BTN_BG,
-      press_color: COLORS.BTN_PRESS,
-      color: COLORS.TEXT_MAIN,
+      normal_color: colors.BTN_BG,
+      press_color: colors.BTN_PRESS,
+      color: colors.BTN_TEXT,
       text_size: px(18),
       text: str.btnBack,
       click_func: () => {
@@ -58,7 +70,7 @@ Page({
       y: curY,
       w: cW - px(120),
       h: px(46),
-      color: COLORS.PRIMARY,
+      color: colors.PRIMARY,
       text_size: px(23),
       align_v: hmUI.align.CENTER_V,
       text: str.defesoTitle
@@ -72,7 +84,7 @@ Page({
       y: curY,
       w: cW,
       h: px(24),
-      color: COLORS.TEXT_MUTED,
+      color: colors.TEXT_MUTED,
       text_size: px(17),
       text: str.defesoTapChange
     });
@@ -85,9 +97,9 @@ Page({
       w: cW,
       h: px(56),
       radius: px(14),
-      normal_color: COLORS.BTN_ACTION_BG,
-      press_color: COLORS.BTN_ACTION_PRESS,
-      color: COLORS.TEXT_MAIN,
+      normal_color: colors.BTN_ACTION_BG,
+      press_color: colors.BTN_ACTION_PRESS,
+      color: colors.BTN_ACTION_TEXT,
       text_size: px(20),
       text: `🔄 ${defeso.shortName} ▾`,
       click_func: () => {
@@ -100,7 +112,7 @@ Page({
     curY += px(68);
 
     // 3. Cartão de Status do Defeso
-    const cardColor = defeso.isDefeso ? COLORS.DANGER : COLORS.SUCCESS;
+    const cardColor = defeso.isDefeso ? colors.DANGER : colors.SUCCESS;
     const card1H = px(170);
 
     hmUI.createWidget(hmUI.widget.FILL_RECT, {
@@ -109,7 +121,7 @@ Page({
       w: cW,
       h: card1H,
       radius: px(16),
-      color: COLORS.CARD_BG
+      color: colors.CARD_BG
     });
 
     hmUI.createWidget(hmUI.widget.STROKE_RECT, {
@@ -127,7 +139,7 @@ Page({
       y: curY + px(14),
       w: cW - px(32),
       h: px(26),
-      color: COLORS.TEXT_MUTED,
+      color: colors.TEXT_MUTED,
       text_size: px(18),
       text: str.defesoCurrentStatus
     });
@@ -147,7 +159,7 @@ Page({
       y: curY + px(82),
       w: cW - px(32),
       h: px(26),
-      color: COLORS.TEXT_MAIN,
+      color: colors.TEXT_MAIN,
       text_size: px(19),
       text: `${str.defesoPeriod}: ${defeso.periodString}`
     });
@@ -157,7 +169,7 @@ Page({
       y: curY + px(112),
       w: cW - px(32),
       h: px(46),
-      color: COLORS.TEXT_DIM,
+      color: colors.TEXT_DIM,
       text_size: px(16),
       text_style: hmUI.text_style.WRAP,
       text: defeso.rivers
@@ -174,15 +186,27 @@ Page({
       w: cW,
       h: card2H,
       radius: px(16),
-      color: COLORS.CARD_BG
+      color: colors.CARD_BG
     });
+
+    if (colors.isLight) {
+      hmUI.createWidget(hmUI.widget.STROKE_RECT, {
+        x: mX,
+        y: curY,
+        w: cW,
+        h: card2H,
+        radius: px(16),
+        line_width: px(1),
+        color: colors.CARD_BORDER
+      });
+    }
 
     hmUI.createWidget(hmUI.widget.TEXT, {
       x: mX + px(16),
       y: curY + px(12),
       w: cW - px(32),
       h: px(26),
-      color: COLORS.ACCENT_GOLD,
+      color: colors.ACCENT_ORANGE,
       text_size: px(20),
       text: str.defesoProtected
     });
@@ -192,7 +216,7 @@ Page({
       y: curY + px(44),
       w: cW - px(32),
       h: px(76),
-      color: COLORS.TEXT_MUTED,
+      color: colors.TEXT_MUTED,
       text_size: px(16),
       text_style: hmUI.text_style.WRAP,
       text: defeso.protectedSpecies
@@ -209,15 +233,27 @@ Page({
       w: cW,
       h: card3H,
       radius: px(16),
-      color: COLORS.CARD_BG
+      color: colors.CARD_BG
     });
+
+    if (colors.isLight) {
+      hmUI.createWidget(hmUI.widget.STROKE_RECT, {
+        x: mX,
+        y: curY,
+        w: cW,
+        h: card3H,
+        radius: px(16),
+        line_width: px(1),
+        color: colors.CARD_BORDER
+      });
+    }
 
     hmUI.createWidget(hmUI.widget.TEXT, {
       x: mX + px(16),
       y: curY + px(12),
       w: cW - px(32),
       h: px(26),
-      color: COLORS.SUCCESS,
+      color: colors.SUCCESS,
       text_size: px(20),
       text: str.defesoAllowed
     });
@@ -227,7 +263,7 @@ Page({
       y: curY + px(44),
       w: cW - px(32),
       h: px(82),
-      color: COLORS.TEXT_MUTED,
+      color: colors.TEXT_MUTED,
       text_size: px(16),
       text_style: hmUI.text_style.WRAP,
       text: defeso.exemptions
@@ -244,15 +280,27 @@ Page({
       w: cW,
       h: card4H,
       radius: px(16),
-      color: COLORS.CARD_BG
+      color: colors.CARD_BG
     });
+
+    if (colors.isLight) {
+      hmUI.createWidget(hmUI.widget.STROKE_RECT, {
+        x: mX,
+        y: curY,
+        w: cW,
+        h: card4H,
+        radius: px(16),
+        line_width: px(1),
+        color: colors.CARD_BORDER
+      });
+    }
 
     hmUI.createWidget(hmUI.widget.TEXT, {
       x: mX + px(16),
       y: curY + px(12),
       w: cW - px(32),
       h: px(26),
-      color: COLORS.DANGER,
+      color: colors.DANGER,
       text_size: px(20),
       text: str.defesoProhibited
     });
@@ -262,7 +310,7 @@ Page({
       y: curY + px(44),
       w: cW - px(32),
       h: px(82),
-      color: COLORS.TEXT_MUTED,
+      color: colors.TEXT_MUTED,
       text_size: px(16),
       text_style: hmUI.text_style.WRAP,
       text: defeso.prohibitions
@@ -277,9 +325,9 @@ Page({
       w: cW,
       h: px(58),
       radius: px(14),
-      normal_color: COLORS.BTN_BG,
-      press_color: COLORS.BTN_PRESS,
-      color: COLORS.TEXT_MAIN,
+      normal_color: colors.BTN_BG,
+      press_color: colors.BTN_PRESS,
+      color: colors.BTN_TEXT,
       text_size: px(22),
       text: str.btnBackHome,
       click_func: () => {
@@ -295,7 +343,7 @@ Page({
       y: curY,
       w: cW,
       h: px(layout.bottomPadding),
-      color: COLORS.TEXT_DIM,
+      color: colors.TEXT_DIM,
       text_size: px(15),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,

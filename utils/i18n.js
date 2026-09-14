@@ -27,7 +27,9 @@ export function setAppLanguage(lang) {
 export const STRINGS = {
   pt: {
     appTitle: 'PESCADOR MAX 🎣',
-    langToggle: 'IDIOMA: 🇧🇷 PT ▾',
+    langToggle: '🇧🇷 PT ▾',
+    themeDark: '🌙 ESCURO ▾',
+    themeLight: '☀️ CLARO ▾',
     weekDays: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
     months: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
     illumination: 'Iluminação',
@@ -94,7 +96,9 @@ export const STRINGS = {
   },
   en: {
     appTitle: 'ANGLER MAX 🎣',
-    langToggle: 'LANG: 🇺🇸 EN ▾',
+    langToggle: '🇺🇸 EN ▾',
+    themeDark: '🌙 DARK ▾',
+    themeLight: '☀️ LIGHT ▾',
     weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     illumination: 'Illumination',

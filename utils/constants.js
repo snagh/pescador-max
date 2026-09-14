@@ -1,27 +1,40 @@
 /**
  * constants.js - Paleta de Cores e Estilos para o Pescador Max
- * Otimizado para tela AMOLED de alta visibilidade ao ar livre
- * e responsividade inteligente (telas quadradas vs redondas)
+ * Inspirado nas cores do ícone oficial: Azul Oceano, Laranja Coral e Prata Metálico
+ * Suporte completo a Dark Mode (AMOLED) e Light / White Mode (Alta Visibilidade Diurna)
  */
 
-export const COLORS = {
-  BG: 0x000000,
-  CARD_BG: 0x0f172a,
-  CARD_BORDER: 0x1e293b,
-  PRIMARY: 0x38bdf8,         // Azul Ciano Pesca
-  PRIMARY_DARK: 0x0284c7,
-  ACCENT_GOLD: 0xfbbf24,     // Dourado para estrelas e lua
-  SUCCESS: 0x10b981,         // Verde Pesca Liberada / Excelente
-  WARNING: 0xf59e0b,         // Laranja Atenção / Regular
-  DANGER: 0xef4444,          // Vermelho Defeso Ativo / Proibido
-  TEXT_MAIN: 0xffffff,
-  TEXT_MUTED: 0x94a3b8,
-  TEXT_DIM: 0x64748b,
-  BTN_BG: 0x1e293b,
-  BTN_PRESS: 0x334155,
-  BTN_ACTION_BG: 0x0284c7,
-  BTN_ACTION_PRESS: 0x0369a1
-};
+export function getColors(theme = 'dark') {
+  const isLight = theme === 'light';
+
+  return {
+    isLight,
+    BG: isLight ? 0xf1f5f9 : 0x000000,
+    CARD_BG: isLight ? 0xffffff : 0x0f172a,
+    CARD_BORDER: isLight ? 0xcfd8dc : 0x1e293b,
+    // Cores oficiais do peixe e água:
+    PRIMARY: isLight ? 0x0284c7 : 0x38bdf8,        // Azul Oceano / Ciano
+    PRIMARY_DARK: 0x0284c7,
+    ACCENT_ORANGE: isLight ? 0xea580c : 0xf97316,  // Laranja Coral do peixe do ícone!
+    ACCENT_GOLD: isLight ? 0xea580c : 0xf97316,    // Destaque de cabeçalho
+    SUCCESS: isLight ? 0x059669 : 0x10b981,        // Verde
+    WARNING: isLight ? 0xd97706 : 0xf59e0b,        // Laranja Atenção
+    DANGER: isLight ? 0xdc2626 : 0xef4444,         // Vermelho
+    TEXT_MAIN: isLight ? 0x0f172a : 0xffffff,      // Preto azulado no claro / Branco no escuro
+    TEXT_MUTED: isLight ? 0x475569 : 0x94a3b8,
+    TEXT_DIM: isLight ? 0x64748b : 0x64748b,
+    BTN_BG: isLight ? 0xe2e8f0 : 0x1e293b,
+    BTN_PRESS: isLight ? 0xcbd5e1 : 0x334155,
+    BTN_TEXT: isLight ? 0x0f172a : 0xffffff,
+    BTN_ACTION_BG: 0x0284c7,
+    BTN_ACTION_PRESS: 0x0369a1,
+    BTN_ACTION_TEXT: 0xffffff,
+    BADGE_BG: isLight ? 0xe0f2fe : 0x162438
+  };
+}
+
+// Mantido para compatibilidade com import direto de COLORS
+export const COLORS = getColors('dark');
 
 /**
  * Retorna configurações de layout adaptadas para relógios redondos e retangulares
@@ -34,8 +47,6 @@ export function getLayoutConfig() {
     isRound = info && info.screenShape === SCREEN_SHAPE_ROUND;
   } catch (e) {}
 
-  // Em telas redondas (T-Rex, Balance, GTR 4), os cantos do círculo cortam os cantos.
-  // Por isso aplicamos margem de segurança maior nas telas redondas.
   return {
     isRound,
     marginX: isRound ? 36 : 16,
