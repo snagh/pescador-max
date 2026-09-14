@@ -91,15 +91,25 @@ Page({
 
     curY += px(58);
 
-    // 2. SELETOR DE BACIA HIDROGRÁFICA (CARD INTERATIVO DE 1 TOQUE)
+    // 2. SELETOR DE BACIA HIDROGRÁFICA (BOTÃO NATIVO 1 TOQUE)
     const basinCardH = px(90);
-    this.createWidget(hmUI.widget.FILL_RECT, {
+    this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
       w: cW,
       h: basinCardH,
       radius: px(18),
-      color: colors.CARD_BG
+      normal_color: colors.CARD_BG,
+      press_color: colors.BTN_PRESS,
+      color: colors.PRIMARY,
+      text_size: px(19),
+      text: `🌊 ${defeso.basinName}\n${str.regionTapChange} ▾`,
+      click_func: () => {
+        const nextId = getNextBasinId(selectedBasin);
+        setSelectedBasin(nextId);
+        this.clearUI();
+        this.renderUI();
+      }
     });
 
     this.createWidget(hmUI.widget.STROKE_RECT, {
@@ -110,54 +120,6 @@ Page({
       radius: px(18),
       line_width: px(2),
       color: colors.PRIMARY
-    });
-
-    this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(16),
-      y: curY + px(10),
-      w: cW - px(32),
-      h: px(22),
-      color: colors.PRIMARY,
-      text_size: px(16),
-      text: `🌊 ${str.regionLabel.toUpperCase()} ▾`
-    });
-
-    this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(16),
-      y: curY + px(34),
-      w: cW - px(32),
-      h: px(30),
-      color: colors.TEXT_MAIN,
-      text_size: px(22),
-      text: defeso.basinName
-    });
-
-    this.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(16),
-      y: curY + px(66),
-      w: cW - px(32),
-      h: px(18),
-      color: colors.TEXT_MUTED,
-      text_size: px(15),
-      text: str.regionTapChange
-    });
-
-    // Botão transparente para clique em toda a área
-    this.createWidget(hmUI.widget.BUTTON, {
-      x: mX,
-      y: curY,
-      w: cW,
-      h: basinCardH,
-      radius: px(18),
-      normal_color: 0x000000,
-      press_color: colors.BTN_PRESS,
-      opacity: 0,
-      click_func: () => {
-        const nextId = getNextBasinId(selectedBasin);
-        setSelectedBasin(nextId);
-        this.clearUI();
-        this.renderUI();
-      }
     });
 
     curY += basinCardH + px(16);
