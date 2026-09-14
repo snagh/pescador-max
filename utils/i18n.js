@@ -69,9 +69,11 @@ export const STRINGS = {
     defesoCurrentStatus: 'STATUS ATUAL',
     defesoPeriod: 'Período',
     defesoProtected: '🐟 ESPÉCIES PROTEGIDAS',
-    defesoAllowed: '✔ O QUE É PERMITIDO',
-    defesoProhibited: '✖ O QUE É PROIBIDO',
-    defesoFooter: 'Preserve a fauna aquática • IBAMA',
+    defesoAllowed: 'O QUE É PERMITIDO:',
+    defesoProhibited: 'O QUE É PROIBIDO:',
+    defesoFooter: 'Pesca Consciente • Preserve Nossos Rios',
+    regionLabel: 'Bacia Hidrográfica',
+    regionTapChange: 'Toque p/ alternar (6 Bacias)',
 
     // Pontos & Iscas
     spotsTitle: 'LOCAIS & PONTOS',
@@ -141,6 +143,8 @@ export const STRINGS = {
     defesoAllowed: '✔ WHAT IS ALLOWED',
     defesoProhibited: '✖ WHAT IS PROHIBITED',
     defesoFooter: 'Preserve aquatic ecosystems',
+    regionLabel: 'River Basin Region',
+    regionTapChange: 'Tap to switch (6 Basins)',
 
     // Spots & Baits
     spotsTitle: 'SPOTS & BAITS',

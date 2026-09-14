@@ -1,5 +1,6 @@
 /**
  * page/forecast/index.js - Previsão Solunar dos Próximos 7 Dias (Bilingual + Dark/Light Mode)
+ * Layout Apple Watch com tipografia de alta legibilidade e alvos de toque confortáveis
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
@@ -10,8 +11,29 @@ import { getUserTheme } from '../../utils/storage.js';
 import { getColors, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
+  state: {
+    widgets: []
+  },
+
   build() {
     this.renderUI();
+  },
+
+  createWidget(type, props) {
+    const w = hmUI.createWidget(type, props);
+    this.state.widgets.push(w);
+    return w;
+  },
+
+  clearUI() {
+    if (this.state.widgets && this.state.widgets.length > 0) {
+      this.state.widgets.forEach((w) => {
+        try {
+          hmUI.deleteWidget(w);
+        } catch (e) {}
+      });
+      this.state.widgets = [];
+    }
   },
 
   renderUI() {
@@ -23,27 +45,27 @@ Page({
     const forecast = getForecast(today, 7, lang);
     const layout = getLayoutConfig();
 
-    const mX = px(layout.marginX);
-    const cW = px(layout.cardW);
-    let curY = px(layout.topPadding);
+    const mX = layout.marginX;
+    const cW = layout.cardW;
+    let curY = layout.topPadding;
 
     if (colors.isLight) {
-      hmUI.createWidget(hmUI.widget.FILL_RECT, {
-        x: px(0),
-        y: px(0),
-        w: px(480),
-        h: px(1600),
+      this.createWidget(hmUI.widget.FILL_RECT, {
+        x: 0,
+        y: 0,
+        w: layout.screenWidth,
+        h: 2200,
         color: colors.BG
       });
     }
 
     // Botão Voltar no Topo
-    hmUI.createWidget(hmUI.widget.BUTTON, {
+    this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
-      w: px(110),
-      h: px(46),
-      radius: px(12),
+      w: px(120),
+      h: px(48),
+      radius: px(24),
       normal_color: colors.BTN_BG,
       press_color: colors.BTN_PRESS,
       color: colors.BTN_TEXT,
@@ -55,21 +77,21 @@ Page({
     });
 
     // Título da Página
-    hmUI.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(120),
+    this.createWidget(hmUI.widget.TEXT, {
+      x: mX + px(130),
       y: curY,
-      w: cW - px(120),
-      h: px(46),
+      w: cW - px(130),
+      h: px(48),
       color: colors.PRIMARY,
-      text_size: px(23),
+      text_size: px(24),
       align_v: hmUI.align.CENTER_V,
       text: str.forecastTitle
     });
 
-    curY += px(52);
+    curY += px(58);
 
     // Subtítulo
-    hmUI.createWidget(hmUI.widget.TEXT, {
+    this.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
@@ -80,98 +102,98 @@ Page({
     });
 
     curY += px(36);
-    const cardH = px(166);
-    const spacing = px(14);
+    const cardH = px(176);
+    const spacing = px(16);
 
     forecast.forEach((f) => {
       const ratingColor = f.rating >= 3.5 ? colors.SUCCESS : (f.rating >= 2.5 ? colors.PRIMARY : colors.WARNING);
 
       // Fundo do cartão
-      hmUI.createWidget(hmUI.widget.FILL_RECT, {
+      this.createWidget(hmUI.widget.FILL_RECT, {
         x: mX,
         y: curY,
         w: cW,
         h: cardH,
-        radius: px(16),
+        radius: px(18),
         color: f.isToday ? colors.BADGE_BG : colors.CARD_BG
       });
 
       // Borda
-      hmUI.createWidget(hmUI.widget.STROKE_RECT, {
+      this.createWidget(hmUI.widget.STROKE_RECT, {
         x: mX,
         y: curY,
         w: cW,
         h: cardH,
-        radius: px(16),
+        radius: px(18),
         line_width: px(2),
         color: f.isToday ? colors.PRIMARY : colors.CARD_BORDER
       });
 
       // Cabeçalho do dia
       const dayTitle = f.isToday ? `${f.dayString} [${str.todayBadge}]` : f.dayString;
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
         y: curY + px(12),
         w: cW - px(32),
-        h: px(28),
+        h: px(30),
         color: f.isToday ? colors.PRIMARY : colors.TEXT_MAIN,
-        text_size: px(22),
+        text_size: px(23),
         text: dayTitle
       });
 
-      // Fase da Lua e Iluminação (com o Laranja Coral do peixe)
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      // Fase da Lua e Iluminação
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(44),
+        y: curY + px(46),
         w: cW - px(32),
-        h: px(26),
+        h: px(28),
         color: colors.ACCENT_ORANGE,
         text_size: px(20),
         text: `${f.phaseName} • ${f.illumination}% ${str.illumination}`
       });
 
       // Avaliação da Pesca
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(74),
+        y: curY + px(78),
         w: cW - px(32),
-        h: px(28),
+        h: px(30),
         color: ratingColor,
-        text_size: px(21),
+        text_size: px(22),
         text: `${str.fishing}: ${f.ratingText.toUpperCase()} ${f.stars}`
       });
 
       // Horários de Pico Solunar
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(106),
+        y: curY + px(112),
+        w: cW - px(32),
+        h: px(26),
+        color: colors.PRIMARY,
+        text_size: px(18),
+        text: `🎣 ${str.majorPeak}: ${f.solunarPeriods.major1}`
+      });
+
+      this.createWidget(hmUI.widget.TEXT, {
+        x: mX + px(16),
+        y: curY + px(140),
         w: cW - px(32),
         h: px(24),
         color: colors.TEXT_MUTED,
-        text_size: px(17),
-        text: `${str.majorPeak}: ${f.solunarPeriods.major1}`
-      });
-
-      hmUI.createWidget(hmUI.widget.TEXT, {
-        x: mX + px(16),
-        y: curY + px(132),
-        w: cW - px(32),
-        h: px(24),
-        color: colors.TEXT_DIM,
         text_size: px(16),
-        text: `${str.minorPeak}: ${f.solunarPeriods.minor1}`
+        text: `🐟 ${str.minorPeak}: ${f.solunarPeriods.minor1}`
       });
 
       curY += cardH + spacing;
     });
 
     // Botão Voltar no Rodapé
-    hmUI.createWidget(hmUI.widget.BUTTON, {
+    this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY + px(10),
       w: cW,
-      h: px(58),
-      radius: px(14),
+      h: px(64),
+      radius: px(18),
       normal_color: colors.BTN_ACTION_BG,
       press_color: colors.BTN_ACTION_PRESS,
       color: colors.BTN_ACTION_TEXT,
@@ -183,13 +205,13 @@ Page({
     });
 
     // Espaçador final
-    hmUI.createWidget(hmUI.widget.TEXT, {
+    this.createWidget(hmUI.widget.TEXT, {
       x: mX,
-      y: curY + px(78),
+      y: curY + px(86),
       w: cW,
       h: px(layout.bottomPadding),
       color: colors.TEXT_DIM,
-      text_size: px(15),
+      text_size: px(16),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
       text: str.solunarFooter

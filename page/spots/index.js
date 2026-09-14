@@ -1,5 +1,6 @@
 /**
- * page/spots/index.js - Locais de Pesca, Waypoints com GPS e Guia de Iscas (Bilingual)
+ * page/spots/index.js - Locais de Pesca, Waypoints com GPS e Guia de Iscas
+ * Atualização instantânea em tempo real e interface Apple Watch
  */
 import * as hmUI from '@zos/ui';
 import { back } from '@zos/router';
@@ -12,15 +13,29 @@ import { getColors, getLayoutConfig } from '../../utils/constants.js';
 
 Page({
   state: {
+    widgets: [],
     spots: []
-  },
-
-  onInit() {
-    this.state.spots = getSavedSpots();
   },
 
   build() {
     this.renderUI();
+  },
+
+  createWidget(type, props) {
+    const w = hmUI.createWidget(type, props);
+    this.state.widgets.push(w);
+    return w;
+  },
+
+  clearUI() {
+    if (this.state.widgets && this.state.widgets.length > 0) {
+      this.state.widgets.forEach((w) => {
+        try {
+          hmUI.deleteWidget(w);
+        } catch (e) {}
+      });
+      this.state.widgets = [];
+    }
   },
 
   renderUI() {
@@ -32,27 +47,27 @@ Page({
     const spotTypes = getSpotTypes(lang);
     const layout = getLayoutConfig();
 
-    const mX = px(layout.marginX);
-    const cW = px(layout.cardW);
-    let curY = px(layout.topPadding);
+    const mX = layout.marginX;
+    const cW = layout.cardW;
+    let curY = layout.topPadding;
 
     if (colors.isLight) {
-      hmUI.createWidget(hmUI.widget.FILL_RECT, {
-        x: px(0),
-        y: px(0),
-        w: px(480),
-        h: px(1600),
+      this.createWidget(hmUI.widget.FILL_RECT, {
+        x: 0,
+        y: 0,
+        w: layout.screenWidth,
+        h: 2400,
         color: colors.BG
       });
     }
 
     // 1. Topo: Botão Voltar + Título
-    hmUI.createWidget(hmUI.widget.BUTTON, {
+    this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
-      w: px(110),
-      h: px(46),
-      radius: px(12),
+      w: px(120),
+      h: px(48),
+      radius: px(24),
       normal_color: colors.BTN_BG,
       press_color: colors.BTN_PRESS,
       color: colors.BTN_TEXT,
@@ -63,26 +78,26 @@ Page({
       }
     });
 
-    hmUI.createWidget(hmUI.widget.TEXT, {
-      x: mX + px(120),
+    this.createWidget(hmUI.widget.TEXT, {
+      x: mX + px(130),
       y: curY,
-      w: cW - px(120),
-      h: px(46),
+      w: cW - px(130),
+      h: px(48),
       color: colors.PRIMARY,
-      text_size: px(23),
+      text_size: px(24),
       align_v: hmUI.align.CENTER_V,
       text: str.spotsTitle
     });
 
-    curY += px(56);
+    curY += px(62);
 
-    // 2. Botão de Marcar Ponto com GPS
-    hmUI.createWidget(hmUI.widget.BUTTON, {
+    // 2. Botão de Marcar Ponto com GPS (Alvo de toque amplo)
+    this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY,
       w: cW,
-      h: px(58),
-      radius: px(14),
+      h: px(64),
+      radius: px(18),
       normal_color: colors.SUCCESS,
       press_color: 0x059669,
       color: 0xffffff,
@@ -104,183 +119,181 @@ Page({
             : (lang === 'en' ? 'Saved with time tag' : 'Ponto salvo com timestamp')
         });
 
-        this.state.spots = getSavedSpots();
-        hmUI.redraw();
+        this.clearUI();
+        this.renderUI();
       }
     });
 
-    curY += px(68);
+    curY += px(76);
 
     // 3. Seção MEUS PONTOS SALVOS
-    hmUI.createWidget(hmUI.widget.TEXT, {
+    this.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
-      h: px(28),
+      h: px(30),
       color: colors.ACCENT_ORANGE,
-      text_size: px(21),
-      text: `${str.spotsMyWaypoints} (${this.state.spots.length})`
+      text_size: px(22),
+      text: `📍 ${str.spotsMyWaypoints} (${this.state.spots.length})`
     });
 
-    curY += px(34);
-    const spotCardH = px(112);
-    const spacing = px(12);
+    curY += px(38);
+    const spotCardH = px(126);
+    const spacing = px(14);
 
     this.state.spots.forEach((spot) => {
-      hmUI.createWidget(hmUI.widget.FILL_RECT, {
+      this.createWidget(hmUI.widget.FILL_RECT, {
         x: mX,
         y: curY,
         w: cW,
         h: spotCardH,
-        radius: px(16),
+        radius: px(18),
         color: colors.CARD_BG
       });
 
-      hmUI.createWidget(hmUI.widget.STROKE_RECT, {
+      this.createWidget(hmUI.widget.STROKE_RECT, {
         x: mX,
         y: curY,
         w: cW,
         h: spotCardH,
-        radius: px(16),
-        line_width: px(2),
+        radius: px(18),
+        line_width: px(1),
         color: colors.CARD_BORDER
       });
 
-      const btnExcluirW = px(96);
-      const textColW = cW - btnExcluirW - px(28);
+      const btnExcluirW = px(100);
+      const textColW = cW - btnExcluirW - px(24);
 
-      // Nome do Ponto
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      // Nome do ponto
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(10),
+        y: curY + px(12),
         w: textColW,
         h: px(28),
-        color: colors.TEXT_MAIN,
+        color: colors.PRIMARY,
         text_size: px(20),
         text: spot.name
       });
 
-      // Horário / Coordenadas
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      // Horário e GPS
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(38),
+        y: curY + px(42),
         w: textColW,
         h: px(24),
-        color: colors.PRIMARY,
-        text_size: px(15),
+        color: colors.TEXT_MAIN,
+        text_size: px(16),
         text: `${spot.time} • ${spot.coords}`
       });
 
       // Notas
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(64),
+        y: curY + px(70),
         w: textColW,
-        h: px(38),
+        h: px(46),
         color: colors.TEXT_MUTED,
-        text_size: px(14),
+        text_size: px(15),
         text_style: hmUI.text_style.WRAP,
         text: spot.notes
       });
 
       // Botão Excluir
-      hmUI.createWidget(hmUI.widget.BUTTON, {
-        x: mX + cW - btnExcluirW - px(12),
-        y: curY + px(32),
+      this.createWidget(hmUI.widget.BUTTON, {
+        x: mX + cW - btnExcluirW - px(14),
+        y: curY + px(36),
         w: btnExcluirW,
-        h: px(46),
-        radius: px(10),
+        h: px(52),
+        radius: px(14),
         normal_color: colors.isLight ? 0xfee2e2 : 0x3f1515,
         press_color: colors.isLight ? 0xfecaca : 0x5c1d1d,
         color: colors.DANGER,
-        text_size: px(16),
+        text_size: px(17),
         text: str.spotsDelete,
         click_func: () => {
           deleteSpot(spot.id);
-          this.state.spots = getSavedSpots();
-          hmUI.redraw();
+          this.clearUI();
+          this.renderUI();
         }
       });
 
       curY += spotCardH + spacing;
     });
 
-    curY += px(10);
+    curY += px(16);
 
     // 4. Seção GUIA DE ISCAS POR AMBIENTE
-    hmUI.createWidget(hmUI.widget.TEXT, {
+    this.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
-      h: px(30),
+      h: px(32),
       color: colors.PRIMARY,
-      text_size: px(23),
+      text_size: px(24),
       text: str.spotsGuideTitle
     });
 
-    curY += px(38);
-    const guideCardH = px(154);
+    curY += px(42);
+    const guideCardH = px(164);
 
     spotTypes.forEach((guide) => {
-      hmUI.createWidget(hmUI.widget.FILL_RECT, {
+      this.createWidget(hmUI.widget.FILL_RECT, {
         x: mX,
         y: curY,
         w: cW,
         h: guideCardH,
-        radius: px(16),
+        radius: px(18),
         color: colors.CARD_BG
       });
 
-      if (colors.isLight) {
-        hmUI.createWidget(hmUI.widget.STROKE_RECT, {
-          x: mX,
-          y: curY,
-          w: cW,
-          h: guideCardH,
-          radius: px(16),
-          line_width: px(1),
-          color: colors.CARD_BORDER
-        });
-      }
+      this.createWidget(hmUI.widget.STROKE_RECT, {
+        x: mX,
+        y: curY,
+        w: cW,
+        h: guideCardH,
+        radius: px(18),
+        line_width: px(1),
+        color: colors.CARD_BORDER
+      });
 
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(10),
+        y: curY + px(12),
         w: cW - px(32),
-        h: px(28),
+        h: px(30),
         color: colors.ACCENT_ORANGE,
-        text_size: px(20),
+        text_size: px(21),
         text: `🎣 ${guide.title}`
       });
 
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(38),
+        y: curY + px(44),
         w: cW - px(32),
-        h: px(24),
+        h: px(26),
         color: colors.TEXT_MAIN,
-        text_size: px(16),
+        text_size: px(18),
         text: `${lang === 'en' ? 'Target' : 'Peixes'}: ${guide.species}`
       });
 
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(64),
+        y: curY + px(72),
         w: cW - px(32),
-        h: px(42),
+        h: px(44),
         color: colors.PRIMARY,
-        text_size: px(15),
+        text_size: px(16),
         text_style: hmUI.text_style.WRAP,
         text: `${lang === 'en' ? 'Baits' : 'Iscas'}: ${guide.baits}`
       });
 
-      hmUI.createWidget(hmUI.widget.TEXT, {
+      this.createWidget(hmUI.widget.TEXT, {
         x: mX + px(16),
-        y: curY + px(108),
+        y: curY + px(118),
         w: cW - px(32),
         h: px(38),
         color: colors.TEXT_MUTED,
-        text_size: px(14),
+        text_size: px(15),
         text_style: hmUI.text_style.WRAP,
         text: `${lang === 'en' ? 'Tip' : 'Dica'}: ${guide.tips}`
       });
@@ -289,12 +302,12 @@ Page({
     });
 
     // Botão Voltar no Rodapé
-    hmUI.createWidget(hmUI.widget.BUTTON, {
+    this.createWidget(hmUI.widget.BUTTON, {
       x: mX,
       y: curY + px(10),
       w: cW,
-      h: px(58),
-      radius: px(14),
+      h: px(64),
+      radius: px(18),
       normal_color: colors.BTN_ACTION_BG,
       press_color: colors.BTN_ACTION_PRESS,
       color: colors.BTN_ACTION_TEXT,
@@ -305,16 +318,16 @@ Page({
       }
     });
 
-    curY += px(68);
+    curY += px(76);
 
     // Espaçador final
-    hmUI.createWidget(hmUI.widget.TEXT, {
+    this.createWidget(hmUI.widget.TEXT, {
       x: mX,
       y: curY,
       w: cW,
       h: px(layout.bottomPadding),
       color: colors.TEXT_DIM,
-      text_size: px(15),
+      text_size: px(16),
       align_h: hmUI.align.CENTER_H,
       align_v: hmUI.align.CENTER_V,
       text: str.spotsFooter

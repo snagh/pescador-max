@@ -38,20 +38,37 @@ export const COLORS = getColors('dark');
 
 /**
  * Retorna configurações de layout adaptadas para relógios redondos e retangulares
+ * Otimizado para telas grandes (Amazfit Bip Max 432x514) e relógios redondos (GTR/Cheetah)
  */
 export function getLayoutConfig() {
   let isRound = false;
+  let screenWidth = 432;
+  let screenHeight = 514;
   try {
     const { getDeviceInfo, SCREEN_SHAPE_ROUND } = require('@zos/device');
     const info = getDeviceInfo();
-    isRound = info && info.screenShape === SCREEN_SHAPE_ROUND;
+    if (info) {
+      if (info.width) screenWidth = info.width;
+      if (info.height) screenHeight = info.height;
+      isRound = info.screenShape === SCREEN_SHAPE_ROUND;
+    }
   } catch (e) {}
+
+  const marginX = isRound ? Math.round(screenWidth * 0.08) : 16;
+  const cardW = screenWidth - (marginX * 2);
 
   return {
     isRound,
-    marginX: isRound ? 36 : 16,
-    cardW: isRound ? 360 : 400,
-    topPadding: isRound ? 46 : 24,
-    bottomPadding: isRound ? 70 : 40
+    screenWidth,
+    screenHeight,
+    marginX,
+    cardW,
+    topPadding: isRound ? 48 : 20,
+    bottomPadding: isRound ? 70 : 40,
+    btnHeight: 64,       // Alvos de toque Apple HIG (confortável para dedos no pulso)
+    btnSmallH: 48,       // Pílulas de controle rápidas e acessíveis
+    radiusCard: 18,
+    radiusBtn: 16,
+    radiusPill: 24
   };
 }

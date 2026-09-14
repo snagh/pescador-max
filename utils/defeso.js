@@ -81,6 +81,25 @@ export const BASINS = [
     prohibitionsEn: 'Commercial trade without stock declaration and floodplain harvesting.'
   },
   {
+    id: 'tocantins',
+    name: 'Bacia do Araguaia-Tocantins',
+    nameEn: 'Araguaia-Tocantins Basin',
+    shortName: 'Araguaia-Tocantins',
+    shortNameEn: 'Araguaia-Tocantins',
+    rivers: 'Rios Araguaia, Tocantins, Vermelho, Crixás, Mortes',
+    riversEn: 'Araguaia, Tocantins, Vermelho, Crixás and Mortes rivers',
+    startMonth: 11,
+    startDay: 1,
+    endMonth: 2,
+    endDay: 28,
+    protectedSpecies: 'Piraíba, Pirarara, Filhote, Tucunaré, Aruanã, Fidalgo, Jaú',
+    protectedSpeciesEn: 'Gilded Catfish (Piraíba), Redtail Catfish (Pirarara), Peacock Bass',
+    exemptions: 'Cota Zero para transporte; Pesque-e-solte permitido com anzol sem fisga.',
+    exemptionsEn: 'Zero transport quota; sport catch-and-release allowed with barbless hooks.',
+    prohibitions: 'Abate de matrizes e qualquer modalidade predatória.',
+    prohibitionsEn: 'Harvesting breeding stock and predatory gear strictly banned.'
+  },
+  {
     id: 'maritimo',
     name: 'Litoral & Marinho (Espécies Protegidas)',
     nameEn: 'Coastal & Marine Protected Species',
@@ -100,6 +119,12 @@ export const BASINS = [
     prohibitionsEn: 'Coastal bottom trawling and catching egg-bearing females.'
   }
 ];
+
+export function getNextBasinId(currentId) {
+  const idx = BASINS.findIndex(b => b.id === currentId);
+  const nextIdx = (idx + 1) % BASINS.length;
+  return BASINS[nextIdx].id;
+}
 
 export function isDateInDefeso(date, basin) {
   const month = date.getMonth() + 1;
